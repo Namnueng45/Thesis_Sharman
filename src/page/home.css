@@ -1,0 +1,8 @@
+* {
+  font-family: "iannnnn-OWL";
+}
+@media (max-width: 768px) {
+  .navbar {
+    display: none; /* ซ่อนเมนูบนมือถือ */
+  }
+}
