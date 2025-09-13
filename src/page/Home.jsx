@@ -12,28 +12,28 @@ function Home() {
 
       {/* บ้าน */}
       <img
-        src="/public/img/parallax/homesick.png"
+        src="/img/parallax/homesick.png"
         alt="house"
         className="absolute bottom-0 left-1/2 -translate-x-1/2 z-5 w-[60%]"
       />
 
       {/* ต้นไม้ */}
       <img
-        src="/public/img/parallax/tre1.png"
+        src="/img/parallax/tre1.png"
         alt="tree"
         className="absolute bottom-0 left-[15%] z-20"
       />
 
       {/* ต้นไม้ */}
       <img
-        src="/public/img/parallax/tre2.png"
+        src="/img/parallax/tre2.png"
         alt="tree"
         className="absolute bottom-0 left-[15%] z-20"
       />
 
       {/* พื้น */}
       <img
-        src="/public/img/parallax/ground.png"
+        src="/img/parallax/ground.png"
         alt="ground"
         className="absolute bottom-0 left-0 w-full z-30"
       />
@@ -45,7 +45,7 @@ function Home() {
       <nav className="relative z-100 flex flex-wrap justify-between items-center p-6 pr-15">
         <div className="logosvg flex-1">
           <img
-            src="/public/img/logo/sharmanLogo.svg"
+            src="/img/logo/sharmanLogo.svg"
             alt="logosharman"
             // style={{ width: "93px", height: "42px" }}
           />
@@ -82,7 +82,7 @@ function Home() {
       {/* Content ของ hero */}
       <div className="relative z-10 flex flex-col items-center justify-center h-[80%] ">
         <img
-          src="/public/img/logo/logogo.svg"
+          src="/img/logo/logogo.svg"
           alt="logosharman"
           className="absolute z-100 top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
