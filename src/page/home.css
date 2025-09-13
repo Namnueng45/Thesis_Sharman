@@ -1,8 +1,10 @@
 * {
   font-family: "iannnnn-OWL";
 }
-@media (max-width: 768px) {
-  .navbar {
-    display: none; /* ซ่อนเมนูบนมือถือ */
+
+.logosvg {
+  & img {
+    width: 96px;
+    height: 46px;
   }
 }
