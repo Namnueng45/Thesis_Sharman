@@ -277,12 +277,13 @@ function Home() {
                   src={characters[key].icon}
                   alt={characters[key].name}
                   className={`selectorChar w-[10vw] cursor-pointer transition-all duration-300 
-                    ${
-                      activeChar === key
-                        ? "opacity-100 scale-105 border-2 border-red-500 rounded-md"
-                        : "opacity-50 hover:opacity-100"
-                    } `}
+        ${
+          activeChar === key
+            ? "opacity-100 scale-105 border-2 border-red-500 rounded-md"
+            : "opacity-40 hover:opacity-70"
+        }`}
                   onClick={() => setActiveChar(key)}
+                  style={{ outline: "none" }} // กันขอบขาวเวลาคลิก
                 />
               ))}
             </div>
