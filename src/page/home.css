@@ -7,6 +7,10 @@
     width: 96px;
     height: 46px;
   }
+  /* .Head_storytext {
+    font-family: "MAX somsin";
+    font-size: 120px;
+  } */
 } /* สำหรับหน้าจอ < 1440px (lg) */
 @media (max-width: 1440px) {
   .shamanlogo {
@@ -24,6 +28,43 @@
   .buttonPlay {
     font-size: 16px;
     padding: 12px 65px;
+  }
+  .overlayupper {
+    height: 60px;
+    /* background: linear-gradient(
+      to top,
+      #00000000 100%,
+      #00000080 50%,
+      #000000ff 0%
+    ); */
+  }
+  .Head_storytext {
+    font-size: 100px;
+  }
+  .main_section {
+    top: 3vw;
+    left: 16vw;
+  }
+}
+@media (max-width: 1920px) {
+  .main_section {
+    top: 4vw;
+  }
+}
+@media (max-width: 1620px) {
+  .main_section {
+    top: 2vw;
+  }
+}
+@media (max-width: 1420px) {
+  .main_section {
+    top: 2vw;
+  }
+  .content_textChar {
+    line-height: 36px;
+  }
+  .Head_name {
+    margin-top: -34px;
   }
 }
 /* สำหรับหน้าจอ < 1290px (md) */
@@ -44,6 +85,26 @@
   }
   .content_hero {
     margin-top: 17vw;
+  }
+  .content_textChar {
+    font-size: 18px;
+    line-height: 32px;
+  }
+  .Head_name {
+    margin-top: -30px;
+    font-size: 66px;
+  }
+  .main_section {
+    top: 3vw;
+  }
+  .Head_storytext {
+    font-size: 80px;
+  }
+}
+
+@media (max-width: 990px) {
+  .main_section {
+    top: 2vw;
   }
 }
 

@@ -27,6 +27,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "MAX somsin";
+  src: url("/public/fonts/Myfont/MAXsomsin.woff2") format("woff2"),
+    url("/public/fonts/Myfont/MAXsomsin.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
