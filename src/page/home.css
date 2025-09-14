@@ -7,4 +7,48 @@
     width: 96px;
     height: 46px;
   }
+} /* สำหรับหน้าจอ < 1440px (lg) */
+@media (max-width: 1440px) {
+  .shamanlogo {
+    width: 42vw;
+  }
+  .content_hero {
+    margin-top: 15vw;
+  }
+  .content_hero p {
+    font-size: 16px;
+  }
+  .bt_sharman {
+    margin-top: 1.3vw;
+  }
+  .buttonPlay {
+    font-size: 16px;
+    padding: 12px 65px;
+  }
+}
+/* สำหรับหน้าจอ < 1290px (md) */
+@media (max-width: 1290px) {
+  .canvas_hero {
+    height: 33vw;
+  }
+  .shamanlogo {
+    width: 40vw;
+  }
+  .buttonPlay {
+    font-size: 16px;
+    padding: 10px 60px;
+  }
+  .bt_sharman {
+    margin-top: 1.5vw;
+    margin-bottom: 2vw;
+  }
+  .content_hero {
+    margin-top: 17vw;
+  }
+}
+
+@media (max-width: 640px) {
+  .text-center {
+    font-size: 16px;
+  }
 }
