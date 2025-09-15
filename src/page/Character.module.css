@@ -30,8 +30,15 @@
 }
 
 /* จาก 1690px ลงมา */
+@media (min-width: 1690px) {
+  .bodyguard {
+    top: 3vw;
+    right: 6vw;
+  }
+}
 @media (max-width: 1690px) {
   .bodyguard {
+    top: 3vw;
     right: 6vw;
   }
 }
@@ -56,6 +63,75 @@
 
 @media (max-width: 640px) {
   .bodyguard {
+    right: 12vw;
+  }
+}
+
+/* char3 */
+.char3 {
+  width: 20vw;
+  position: absolute;
+  top: 5vw;
+  right: 15vw;
+}
+
+@media (max-width: 1024px) {
+  /* md */
+  .char3 {
+    width: 20vw;
+    right: 16vw;
+  }
+}
+
+@media (max-width: 640px) {
+  /* sm */
+  .char3 {
+    width: 25vw;
+    right: 5vw;
+  }
+}
+
+/* char4 */
+.char4 {
+  width: 33vw;
+  position: absolute;
+  right: 7vw; /* ค่าพื้นฐานที่จอใหญ่สุด */
+}
+
+/* จาก 1690px ลงมา */
+@media (min-width: 1690px) {
+  .char4 {
+    top: 3vw;
+    right: 6vw;
+  }
+}
+@media (max-width: 1690px) {
+  .char4 {
+    top: 3vw;
+    right: 6vw;
+  }
+}
+
+@media (max-width: 1280px) {
+  .char4 {
+    right: 8vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .char4 {
+    right: 6.5vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .char4 {
+    right: 1vw;
+  }
+}
+
+@media (max-width: 640px) {
+  .char4 {
     right: 12vw;
   }
 }

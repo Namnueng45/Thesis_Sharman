@@ -1,6 +1,13 @@
 * {
   font-family: "iannnnn-OWL";
 }
+.parallax-house,
+.parallax-tree-left,
+.parallax-tree-right,
+.parallax-ground,
+.parallax-bg {
+  transition: transform 0.2s ease-out;
+}
 
 .logosvg {
   & img {
