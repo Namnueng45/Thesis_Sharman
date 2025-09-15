@@ -2,7 +2,8 @@ import "./home.css";
 import { useEffect } from "react";
 import { useState } from "react";
 import bgsection1 from "../assets/section1.jpg";
-import bgsection3 from "../assets/section3.jpg";
+import styles from "./Character.module.css";
+import { motion } from "framer-motion";
 
 function Home() {
   useEffect(() => {
@@ -51,8 +52,7 @@ function Home() {
       ),
       image: "/img/parallax/kraCharactor.png",
       icon: "/img/parallax/iconchar1.png",
-      size: "w-[20vw] sm:w-[25vw] md:w-[20vw]",
-      rightClass: "right-[12vw] sm:right-[5vw] md:right-[22vw]",
+      className: styles.kla,
     },
 
     char3: {
@@ -81,9 +81,7 @@ function Home() {
       ),
       image: "/img/parallax/guardCharactor.png",
       icon: "/img/parallax/iconchar2.png",
-      size: "w-[33vw]", // ขนาดรูปใหญ่
-      rightClass:
-        "right-[12vw] sm:right-[5vw] md:right-[22vw] lg:right-[8vw] xl:right-[10vw] 2xl:right-[15vw]", // ตำแหน่ง right
+      className: styles.bodyguard, // ใช้ class จาก CSS Module
     },
     char4: {
       name: "วิญญาณปริศนา",
@@ -98,12 +96,35 @@ function Home() {
       right: "12vw", // ตำแหน่ง right
     },
   };
+
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.3, // เว้นเวลา 0.3 วินาทีต่อ child
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+  };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const images = [
+    "/img/parallax/screen1.png",
+    "/img/parallax/screen2.png",
+    "/img/parallax/screen3.png",
+  ];
+
   return (
     <>
       <section className="relative h-[50vw]">
         {/* Background */}
         <div
-          className="absolute w-[102%] h-full z-0 bg-cover bg-center brightness-70 blur-[2px] top-0 left-[-10px] parallax-bg"
+          className="absolute w-[102%] h-full z-2 bg-cover bg-center brightness-70 blur-[2px] top-0 left-[-10px] parallax-bg"
           style={{ backgroundImage: `url(${bgsection1})` }}
         ></div>
 
@@ -132,7 +153,7 @@ function Home() {
         <img
           src="/img/parallax/ground.png"
           alt="ground"
-          className="absolute bottom-0 left-0 w-full z-30 parallax-ground"
+          className="absolute bottom-0 left-0 w-full z-30 parallax-ground pointer-events-none"
         />
 
         {/* Overlay gradient ดำ → โปร่งใส */}
@@ -186,28 +207,46 @@ function Home() {
           />
           {/* Content ข้อความ และปุ่ม */}
           <div className="content_hero text-center text-white mt-[14vw] tracking-widest">
-            <p className="font-[100] text-sm sm:text-base md:text-lg lg:text-xl">
+            <p className="font-[100]">
               ภาพยนตร์มีเรื่องนี้มีรูปแบบ Interactive
             </p>
-            <p className="font-[100] text-sm sm:text-base md:text-lg lg:text-xl">
+            <p className="font-[100]">
               ผู้ชมจะได้มีส่วนร่วมกำหนดเส้นทางและชะตากรรมของเรื่อง..
             </p>
-            <p className="bt_sharman font-[100] text-sm sm:text-base md:text-lg lg:text-xl mt-[1.5vw] mb-[3vw]">
+            <p className="bt_sharman font-[100] mt-[1.5vw] mb-[3vw]">
               ทุกการตัดสินใจที่คุณเลือก...จะเปลี่ยนตอนจบไปตลอดกาล
             </p>
           </div>
 
-          <button className="buttonPlay tracking-widest border-2 p-3 text-white rounded-lg pl-20 pr-20 text-lg font-bold">
+          <button
+            className="
+    tracking-widest
+    border-2 border-white
+    p-3 pl-20 pr-20
+    text-white
+    rounded-lg
+    text-lg font-bold
+    transition-all duration-500 ease-in-out
+    hover:bg-[#C23213] hover:text-black hover:border-transparent
+    z-20
+  "
+          >
             ดูภาพยนต์
           </button>
         </div>
       </section>
 
+      {/* กั้นสีดำ */}
+      <section className="relative h-[10vw] flex items-start z-12 bg-black">
+        {" "}
+        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+      </section>
+
       {/* section เรื่องย่อ */}
-      <section className="relative h-[50vw] flex items-center">
+      <section className="relative h-[60vw] flex items-center">
         {/* background */}
         <div
-          className="absolute w-[102%] h-[50vw] z-10 bg-cover bg-center brightness-70 blur-[4px] top-0 left-[-10px]"
+          className="absolute w-[102%] h-[60vw] z-10 bg-cover bg-center brightness-70 blur-[4px] top-0 left-[-10px]"
           style={{ backgroundImage: `url(${bgsection1})` }}
         ></div>
         {/* ต้นไม้ r */}
@@ -218,35 +257,49 @@ function Home() {
         />
 
         {/* Overlay gradient ดำ → โปร่งใส */}
-        <div className="overlayupper absolute z-11 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
-        {/* Overlay gradient ดำ → โปร่งใส */}
-        {/* <div className="absolute z-11 top-0 left-0 w-full h-60 bg-gradient-to-b from-black/80 via-black/30 to-transparent"></div> */}
-        {/* Overlay gradient ดำ → โปร่งใส buttom */}
-        <div className="overlayupper absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+        <div className="overlayupper absolute z-11 top-[-8px] left-0 w-full h-[12vw] bg-gradient-to-b from-black/100 via-black/40 to-transparent"></div>
+        <div className="overlayupper absolute z-11 bottom-[-1px] left-0 w-full h-30 bg-gradient-to-t from-black/100 via-black/30 to-transparent"></div>
 
         {/* content */}
-        <div className="absolute text-start pl-30 z-20 text-white">
-          <h2
+        <motion.div
+          className="content_summary absolute text-start pl-[12vw] z-20 text-white"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          {/* หัวเรื่อง */}
+          <motion.h2
             className="Head_storytext text-[128px] text-[#C23213] font-light"
             style={{ fontFamily: '"MAX somsin", sans-serif' }}
+            variants={itemVariants}
           >
             เรื่องย่อ
-          </h2>
-          <p className="content_text text-[20px] font-normanl leading-9 tracking-[0.13vw] mt-[-25px]">
-            เรื่องราวของหมอผีหนุ่มผู้ไม่มีพลังวิเศษใดๆมีอาชีพหลอกชาวบ้านเพื่อหาเงิน{" "}
+          </motion.h2>
+
+          {/* เนื้อหา */}
+          <motion.p
+            className="content_text text-[20px] font-normanl leading-9 tracking-[0.13vw] mt-[-25px]"
+            variants={itemVariants}
+          >
+            เรื่องราวของหมอผีหนุ่มผู้ไม่มีพลังวิเศษใดๆมีอาชีพหลอกชาวบ้านเพื่อหาเงิน
             <br />
-            ถูกชายลึกลับเชิญตัวไปแบบไม่ตั้งใจ เมื่อเข้ามาถึงภฤหาสต์ใหญ่หลังหนึ่ง{" "}
+            ถูกชายลึกลับเชิญตัวไปแบบไม่ตั้งใจ เมื่อเข้ามาถึงภฤหาสต์ใหญ่หลังหนึ่ง
             <br />
             กลับพบกับสิ่งมีชีวิตปริศนาทำให้เขาต้องเผชิญกับ
-            <span className="pl-1 text-2xl text-[#D52E0A] font-bold">
+            <span className="dagerousP pl-1 text-2xl text-[#D52E0A] font-bold">
               อันตราย
             </span>
             <br />
             และหาทางมีชีวิตรอดกลับออกมาให้ได้
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
-
+      {/* กั้นสีดำ */}
+      <section className="relative h-[10vw] flex items-start z-12 bg-black">
+        {" "}
+        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+      </section>
       {/* section Charactor */}
       <section className="relative h-[50vw] flex items-start">
         {/* background */}
@@ -257,9 +310,9 @@ function Home() {
 
         {/* Overlay gradient */}
         <div className="overlayupper absolute z-11 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
-        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+        <div className="absolute z-11 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div>
 
-        {/* content Charactor */}
+        {/* --------- content Charactor ------------- */}
         <div className="main_section absolute text-start z-20 text-white top-[6vw] left-[20vw]">
           {/* ชือ section : ตัวละคร */}
           <h2
@@ -268,9 +321,9 @@ function Home() {
           >
             ตัวละคร
           </h2>
-          <div className="flex gap-[3vw]">
+          <div className="flex gap-[4vw]">
             {/* รูปเลือกตัวละคร */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-[2.2vw]">
               {Object.keys(characters).map((key) => (
                 <img
                   key={key}
@@ -279,8 +332,8 @@ function Home() {
                   className={`selectorChar w-[10vw] cursor-pointer transition-all duration-300 
         ${
           activeChar === key
-            ? "opacity-100 scale-105 border-2 border-red-500 rounded-md"
-            : "opacity-40 hover:opacity-70"
+            ? "opacity-100 scale-105 border-red-500 rounded-md"
+            : "opacity-30 hover:opacity-70"
         }`}
                   onClick={() => setActiveChar(key)}
                   style={{ outline: "none" }} // กันขอบขาวเวลาคลิก
@@ -292,13 +345,13 @@ function Home() {
             <div className="relative flex flex-col">
               {/* ชื่อ */}
               <h3
-                className="Head_name text-[90px] text-white font-light mb-[-10px]"
+                className="Head_name text-[90px] text-white font-light mb-[-10px] mt-[-2vw]"
                 style={{ fontFamily: '"MAX somsin", sans-serif' }}
               >
                 {characters[activeChar].name}
               </h3>
               {/* เส้น */}
-              <div className="border-b border-[#DCDCDC] w-78 border-[0.5px]"></div>
+              <div className="border-b border-[#DCDCDC] w-[20vw] border-[0.5px]"></div>
               <div className="mt-[1.8vw]">
                 <p className="content_textChar text-[20px] font-normal leading-10 tracking-[0.14vw]">
                   {characters[activeChar].description}
@@ -307,15 +360,102 @@ function Home() {
             </div>
           </div>
         </div>
-
         {/* รูปใหญ่ */}
         <div
-          className={`absolute top-[5vw] z-20 ${characters[activeChar].size} ${characters[activeChar].rightClass}`}
+          className={`absolute top-[5vw] z-20 ${characters[activeChar].className}`}
         >
           <img
             src={characters[activeChar].image}
             alt={characters[activeChar].name}
           />
+        </div>
+      </section>
+
+      {/* กั้นสีดำ */}
+      <section className="relative h-[10vw] flex items-start z-12 bg-black">
+        {" "}
+        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+      </section>
+
+      {/* ส่วน section4 bulletpoint */}
+      <section className="relative h-[50vw] flex flex-col items-center justify-center z-12 text-center">
+        {/* background */}
+        <div
+          className="absolute w-[101vw] h-[50vw] bg-cover bg-center brightness-30 blur-[3px] top-0 left-[-10px]"
+          style={{ backgroundImage: "url('/img/parallax/section4.jpg')" }}
+        ></div>
+
+        {/* gradient overlay */}
+        <div className="overlayupper absolute z-11 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-black/0"></div>
+        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-black/0"></div>
+
+        {/* content */}
+        <div className="relative text-[20px] z-20 text-white tracking-[0.2vw] font-light leading-[2vw]">
+          <p className="">
+            ภาพยนตร์มีเรื่องนี้มีรูปแบบ Interactive <br />
+            ผู้ชมจะได้มีส่วนร่วมกำหนดเส้นทางและชะตากรรมของเรื่อง..
+          </p>
+
+          {/* ปุ่ม */}
+          <button className="mt-[4vw] mb-[4.5vw] px-[5vw] py-[1vw] bg-[#C23213] hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-300">
+            ดูภาพยนต์
+          </button>
+          <p>ทุกการตัดสินใจที่คุณเลือก...จะเปลี่ยนตอนจบไปตลอดกาล</p>
+        </div>
+      </section>
+
+      {/* ส่วน screen shot */}
+      <section className="relative h-[60vw] flex flex-col items-center justify-center z-12 text-center bg-black">
+        {/* <div
+          className="absolute w-[101vw] h-[50vw] bg-cover bg-center brightness-30 blur-[3px] top-0 left-[-10px]"
+          style={{ backgroundImage: "url('/img/parallax/section4.jpg')" }}
+        ></div> */}
+
+        {/* gradient overlay */}
+        <div className="overlayupper absolute z-11 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-black/0"></div>
+        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-black/0"></div>
+
+        {/* content */}
+        <div className="relative text-[20px] z-20 text-white tracking-[0.2vw] font-light">
+          {/* รูปใหญ่ */}
+          <div className="w-[48vw] h-[27vw]">
+            <img
+              src="/img/parallax/screen1.png"
+              alt="main"
+              className="w-full h-full object-cover shadow-lg"
+            />
+          </div>
+
+          {/* รูปเล็ก 3 รูป */}
+          <div className="flex gap-4 mt-4">
+            {images.map((img, i) => (
+              <div key={i} className="w-[15.3vw] h-[6vw]">
+                <img
+                  src={img}
+                  alt={`thumb-${i}`}
+                  className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition"
+                  onClick={() => setSelectedImage(img)}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Popup แสดงรูปเต็ม */}
+          {selectedImage && (
+            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+              <img
+                src={selectedImage}
+                alt="full"
+                className="max-w-[80vw] max-h-[80vh] rounded-lg object-contain"
+              />
+              <button
+                className="absolute top-8 right-8 text-white text-2xl font-bold"
+                onClick={() => setSelectedImage(null)}
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>
