@@ -164,3 +164,26 @@
   }
 }
 /* "right-[12vw] sm:rigเht-[5vw] md:right-[22vw] lg:right-[8vw] xl:right-[10vw] 2xl:right-[15vw]", // ตำแหน่ง right */
+/* เพิ่มใน home.css */
+.parallax-section {
+  will-change: transform;
+}
+
+.parallax-bg,
+.parallax-house,
+.parallax-tree-left,
+.parallax-tree-right,
+.parallax-ground {
+  will-change: transform, scale;
+  backface-visibility: hidden;
+}
+
+/* สำหรับ smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ป้องกันการ overflow ใน parallax section */
+.parallax-section {
+  overflow: hidden;
+}
