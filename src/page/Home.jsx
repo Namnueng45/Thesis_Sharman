@@ -23,8 +23,11 @@ function Home() {
         scrub: 1.2, // ความนุ่มนวลของการเลื่อน
         pin: true, // ล็อค section ไว้
         pinSpacing: true,
+        markers: true,
       },
     });
+
+    const animDuration = 0.005;
 
     // พื้นหลังขยายและเคลื่อนที่เข้ามา (ซูมเข้า)
     tl.to(
@@ -34,6 +37,7 @@ function Home() {
         y: -150,
         transformOrigin: "center center",
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
@@ -46,6 +50,7 @@ function Home() {
         y: -100,
         x: -50,
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
@@ -58,6 +63,7 @@ function Home() {
         x: -600, // แก้ไข: เพิ่มระยะการเลื่อนออกไปทางซ้าย
         y: -250, // แก้ไข: เพิ่มระยะการเลื่อนขึ้น
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
@@ -70,6 +76,7 @@ function Home() {
         x: 600, // แก้ไข: เพิ่มระยะการเลื่อนออกไปทางขวา
         y: -250, // แก้ไข: เพิ่มระยะการเลื่อนขึ้น
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
@@ -80,6 +87,7 @@ function Home() {
       {
         y: 50, // ทำให้พื้นเลื่อนลงด้านล่าง
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
@@ -90,64 +98,105 @@ function Home() {
       {
         opacity: 0.75, // ทำให้ทึบแสง 100% เมื่อ scroll ถึงสุด
         ease: "none",
+        duration: animDuration, // ✨ เพิ่ม duration
       },
       0
     );
+
+    gsap.to(".shamanlogo", {
+      // 🎯 สั่งให้แอนิเมชันทำงานกับโลโก้โดยตรง (ไม่ใช่ผ่าน tl)
+      scrollTrigger: {
+        trigger: ".parallax-section", // 📍 ยังคงอ้างอิง section เดิมเป็นหลัก
+        start: "bottom bottom",
+        // start: จุดเริ่มต้นแอนิเมชัน "เมื่อขอบล่างของ trigger แตะกับ ขอบล่างของหน้าจอ"
+        // (ซึ่งคือจังหวะที่ section เริ่มเลื่อนขึ้นหลัง parallax จบ)
+        end: "bottom top",
+        // end: จุดสิ้นสุดแอนิเมชัน "เมื่อขอบล่างของ trigger เดินทางไปถึง ขอบบนของหน้าจอ"
+        // (ณ จุดนี้ แอนิเมชันจะเล่นจบ 100%)
+        scrub: 1, // ✨ ทำให้การจางหายเป็นไปอย่างนุ่มนวลตามการเลื่อน
+        // pin: false ไม่ต้องใส่ เพราะเราไม่ได้จะล็อคมันไว้
+      },
+      opacity: 0, // 👻 ทำให้มันโปร่งใส (จางหายไป)
+      y: -100, // (ลูกเล่นเสริม) ทำให้มันเลื่อนขึ้นนิดๆ ตอนจางหาย
+      ease: "power1.out",
+    });
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
-  // Mouse movement effect สำหรับต้นไม้ - เบาลง
-  // useEffect(() => {
-  //   const handleMouseMove = (e) => {
-  //     const x = (e.clientX / window.innerWidth - 0.5) * 10; // ลดแรงลง
-  //     const y = (e.clientY / window.innerHeight - 0.5) * 10;
+  //ตัวข้อความ The Animation im....Movie
+  useEffect(() => {
+    gsap.to(
+      // 🎯 เป้าหมายยังคงเป็น 3 ตัวเหมือนเดิม
+      [".content_hero p"],
+      {
+        scrollTrigger: {
+          trigger: ".parallax-section",
+          start: "bottom 70%",
+          end: "center 60%",
+          // markers: true,
+          scrub: 1,
+        },
+        y: -150, // เลื่อนขึ้น
+        opacity: 0, // จางหาย
+        ease: "none", // ทำให้ความเร็วคงที่ตามการเลื่อน
+      }
+    );
+  }, []);
 
-  //     setTilt({ x, y });
+  //Button ดูภาพยนต์
+  useEffect(() => {
+    gsap.to([".canvas_hero button"], {
+      scrollTrigger: {
+        trigger: ".parallax-section",
+        start: "bottom 60%",
+        end: "center 60%",
+        scrub: true,
+      },
+      y: -150,
+      opacity: 0,
+      ease: "none",
+    });
+  }, []);
 
-  //     // เอฟเฟกต์ mouse parallax เบาๆ สำหรับต้นไม้
-  //     const treeLeft = document.querySelector(".parallax-tree-left");
-  //     if (treeLeft) {
-  //       gsap.to(treeLeft, {
-  //         duration: 0.8,
-  //         x: `+=${x / 8}`, // ลดความแรงลง
-  //         y: `+=${y / 12}`,
-  //         ease: "power2.out",
-  //       });
-  //     }
-
-  //     const treeRight = document.querySelector(".parallax-tree-right");
-  //     if (treeRight) {
-  //       gsap.to(treeRight, {
-  //         duration: 0.8,
-  //         x: `+=${-x / 8}`, // ลดความแรงลง
-  //         y: `+=${y / 12}`,
-  //         ease: "power2.out",
-  //       });
-  //     }
-  //   };
-
-  //   window.addEventListener("mousemove", handleMouseMove);
-  //   return () => window.removeEventListener("mousemove", handleMouseMove);
-  // }, []);
-
-  // โลโก้ 3D tilt effect
-
+  // โลโก้ 3D tilt effect ขยับ
   useEffect(() => {
     const handleLogoMouseMove = (e) => {
       const { innerWidth, innerHeight } = window;
       const x = (e.clientX / innerWidth - 0.5) * 20;
       const y = (e.clientY / innerHeight - 0.5) * 20;
       setTilt({ x, y });
+
+      // ==========================================================
+      // 🌟 โค้ดใหม่ที่แก้ไขแล้ว ไม่ไหลไปเรื่อยๆ
+      // ==========================================================
+
+      // 🌳 1. ทำให้ต้นไม้ขยับตามเมาส์
+      // เราจะใช้ gsap.to เพื่อให้ยังมีความนุ่มนวลอยู่
+      gsap.to(".parallax-tree-left, .parallax-tree-right", {
+        xPercent: x * 0.2, // 💥 เปลี่ยนเป็น xPercent และปรับตัวคูณตามความเหมาะสม
+        yPercent: y * 0.2, // 💥 เปลี่ยนเป็น yPercent
+        duration: 0.5, // ใส่ duration เพื่อความนุ่มนวล
+        ease: "power1.out",
+        overwrite: "auto", // 💡 คำสั่งสำคัญ: ยกเลิกแอนิเมชันเก่าก่อนเริ่มอันใหม่
+      });
+
+      // 🏠 2. ทำให้บ้านขยับตรงข้ามกับเมาส์
+      gsap.to(".parallax-house", {
+        xPercent: -x * 0.1, // 💥 ลดตัวคูณของ x ลงเยอะๆ (ให้น้อยกว่า 0.2 ของต้นไม้)
+        yPercent: -y * 0.02,
+        duration: 0.5,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
     };
 
     window.addEventListener("mousemove", handleLogoMouseMove);
     return () => window.removeEventListener("mousemove", handleLogoMouseMove);
   }, []);
 
-  // Character data
   const characters = {
     kla: {
       name: "กล้า",
@@ -211,22 +260,6 @@ function Home() {
     const y = (e.clientY / innerHeight - 0.5) * 30;
     setTilt({ x, y });
   };
-
-  // Animation variants
-  const containerVariants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-  };
-
   const images = [
     "/img/parallax/screen1.png",
     "/img/parallax/screen2.png",
@@ -315,7 +348,7 @@ function Home() {
         <img
           src="/img/parallax/tre3.png"
           alt="tree"
-          className="absolute bottom-[2vw] right-[-0.4vw] z-50 w-[36vw] parallax-tree-right filter brightness-0" // แก้ไข: เปลี่ยน z-30 เป็น z-50
+          className="absolute bottom-[2vw] right-[-0.7vw] z-50 w-[36vw] parallax-tree-right filter brightness-0" // แก้ไข: เปลี่ยน z-30 เป็น z-50
         />
         {/* Ground Layer */}
         <img
@@ -337,7 +370,7 @@ function Home() {
           <img
             src="/img/logo/logogo.png"
             alt="logosharman"
-            className="shamanlogo w-[45vw] mb-4 mt-[-3vw] ผ"
+            className="shamanlogo w-[45vw] mb-4 mt-[-3vw]"
             style={{
               transform: `perspective(1000px) rotateY(${
                 tilt.x
@@ -347,7 +380,7 @@ function Home() {
           />
           <div className="content_hero text-center text-white tracking-widest">
             <p
-              className="mb-2 text-[1.5vw]"
+              className="p_content mb-2 text-[1.5vw]"
               style={{ fontFamily: '"iannnnn-OWL' }}
             >
               THE ANIMATION INTERACTIVE MOVIE
@@ -360,7 +393,7 @@ function Home() {
       </section>
 
       {/* เพิ่ม: Section สีดำสำหรับคั่นหน้า */}
-      <section className="relative z-20 h-[20vh] bg-black -mt-1" />
+      <section className="canvasblack1 relative z-20 h-[20vh] bg-black -mt-1" />
 
       {/* Story Section */}
       <section id="synopsis" className="relative h-[65vw] flex items-center">
@@ -368,48 +401,39 @@ function Home() {
           className="absolute w-[102%] h-[65vw] z-10 bg-cover bg-center brightness-70 blur-[4px] top-0 left-[-10px]"
           style={{ backgroundImage: `url(${bgsection1})` }}
         ></div>
-
         <img
           src="/img/parallax/tre3.png"
           alt="tree"
           className="absolute bottom-[0vw] right-[0vw] z-10 w-[55%] filter brightness-0 blur-[6px]"
         />
 
-        <div className="overlayupper absolute z-32 top-[-2.5vw] left-0 w-full h-[22vw] bg-gradient-to-b from-black/100 via-black/70 to-transparent"></div>
-        <div className="overlayupper absolute z-11 bottom-[-5px] left-0 w-full h-30 bg-gradient-to-t from-black/100 via-black/30 to-transparent"></div>
+        {/* overlay บนล่าง และมี backdrop */}
+        <div className="overlayupper absolute z-32 top-[-2.5vw] left-0 w-full h-[18vw] bg-gradient-to-b from-black/100 via-black/70 to-transparent"></div>
+        <div className="overlayupper absolute z-11 bottom-[-5px] left-0 w-full h-[18vw] bg-gradient-to-t from-black/100 via-black/30 to-transparent"></div>
         <div className="absolute inset-0 bg-[#070D07]/50 pointer-events-none z-20"></div>
 
-        <motion.div
-          className="content_summary absolute text-start pl-[12vw] z-20 text-white"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.5 }}
-        >
-          <motion.h2
-            className="Head_storytext text-[128px] text-[#C23213] font-light"
+        <div className="content_summary absolute text-start z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {/* <h2
+            className="Head_storytext text-center text-[128px] text-[#C23213] font-light"
             style={{ fontFamily: '"MAX somsin", sans-serif' }}
-            variants={itemVariants}
           >
             เรื่องย่อ
-          </motion.h2>
-
-          <motion.p
-            className="content_text text-[20px] font-normal leading-9 tracking-[0.13vw] mt-[-25px]"
-            variants={itemVariants}
-          >
-            เรื่องราวของหมอผีหนุ่มผู้ไม่มีพลังวิเศษใดๆมีอาชีพหลอกชาวบ้านเพื่อหาเงิน
+          </h2> */}
+          <p className="content_text text-center text-[24px] font-normal leading-14 tracking-[0.2vw] text-white">
+            “กล้า ชายหนุ่มธรรมดา ที่ใช้ชีวิตในนามหมอผี แต่กลับไร้พลังวิเศษใดๆ{" "}
             <br />
-            ถูกชายลึกลับเชิญตัวไปแบบไม่ตั้งใจ เมื่อเข้ามาถึงภฤหาสต์ใหญ่หลังหนึ่ง
+            วันหนึ่งเขาถูกบุคคลลึกลับ เชิญไปยังคฤหาสน์ปริศนาอย่างไม่เต็มใจ{" "}
             <br />
-            กลับพบกับสิ่งมีชีวิตปริศนาทำให้เขาต้องเผชิญกับ
-            <span className="dagerousP pl-1 text-2xl text-[#D52E0A] font-bold">
-              อันตราย
-            </span>
+            ที่นั่น
+            เขาต้องเผชิญหน้ากับสิ่งที่ครั้งหนึ่งเคยใช้เป็นเพียงเครื่องมือหากิน{" "}
             <br />
-            และหาทางมีชีวิตรอดกลับออกมาให้ได้
-          </motion.p>
-        </motion.div>
+            ทว่าความสยองที่รออยู่กลับเกินกว่าที่เขาจะจินตนาการ <br />
+            กล้าจะต้องหาทางผ่านอุปสรรคต่างและเอาชีวิตรอดกลับออกมาให้ได้ <br />
+            เขาถูกบังคับให้เผชิญหน้ากับอันตรายที่ไม่อาจคาดคิด <br />
+            ทุกการตัดสินใจคือเส้นแบ่งระหว่างความเป็นและความตาย <br />
+            และความลับในคฤหาสน์อาจกลายเป็นฝันร้ายที่ไม่มีวันตื่น”
+          </p>
+        </div>
       </section>
       {/* Black Spacer */}
       <section className="relative h-[10vw] flex items-start z-12 bg-black">
