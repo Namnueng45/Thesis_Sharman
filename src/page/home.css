@@ -15,6 +15,13 @@
     height: 46px;
   }
 }
+
+.pin-container {
+  height: 250vh; /* 👈 **สำคัญมาก:** ต้องสูงเท่ากับค่า end ของคุณ */
+  width: 100%;
+  position: relative; /* เพิ่ม position relative */
+}
+
 @media (max-width: 1920px) {
   .main_section {
     top: 4vw;
@@ -29,10 +36,10 @@
 /* สำหรับหน้าจอ < 1440px (lg) */
 @media (max-width: 1440px) {
   .shamanlogo {
-    width: 42vw;
+    width: 44vw;
   }
   .content_hero {
-    margin-top: 15vw;
+    margin-top: 1vw;
   }
   .content_hero p {
     font-size: 16px;
@@ -66,7 +73,7 @@
 /* สำหรับหน้าจอ < 1290px (md) */
 @media (max-width: 1290px) {
   .canvas_hero {
-    height: 33vw;
+    height: 50vw;
   }
   .shamanlogo {
     width: 38vw;
@@ -80,7 +87,7 @@
     margin-bottom: 1.5vw;
   }
   .content_hero {
-    margin-top: 15.5vw;
+    margin-top: 1vw;
   }
   .content_textChar {
     font-size: 18px;
@@ -115,10 +122,10 @@
     font-size: 14px;
   }
   .content_hero {
-    margin-top: 18vw;
+    margin-top: 1vw;
   }
   .canvas_hero {
-    height: 28vw;
+    height: 55vw;
   }
   .Head_storytext {
     font-size: 56px;
@@ -141,13 +148,16 @@
   .shamanlogo {
     width: 30vw;
   }
+  .canvas_hero {
+    height: 70vw;
+  }
 }
 @media (max-width: 789px) {
   .content_summary {
     padding-left: 8vw;
   }
   .canvas_hero {
-    height: 22vw;
+    height: 80vw;
   }
   .main_section {
     left: 13vw;
