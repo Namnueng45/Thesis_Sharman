@@ -17,7 +17,7 @@
 }
 
 .pin-container {
-  height: 250vh; /* 👈 **สำคัญมาก:** ต้องสูงเท่ากับค่า end ของคุณ */
+  height: 400vh; /* 👈 **สำคัญมาก:** ต้องสูงเท่ากับค่า end ของคุณ */
   width: 100%;
   position: relative; /* เพิ่ม position relative */
 }
@@ -196,4 +196,125 @@ html {
 /* ป้องกันการ overflow ใน parallax section */
 .parallax-section {
   overflow: hidden;
+}
+
+/* --------animation section POP ------- */
+:root {
+  --color: #1e293b;
+  --c1: #fbda61;
+  --c2: #ff5acd;
+  --c3: #2563eb;
+  --gradient: linear-gradient(
+    60deg,
+    var(--c3),
+    var(--c2),
+    var(--c1),
+    var(--c2),
+    var(--c3)
+  );
+  --scale-start: 0.5;
+  --scale-end: 1.001;
+  --hover-offset: 5%;
+
+  /* 
+    linear easing generator
+    https://linear-easing-generator.netlify.app/
+  */
+  /* prettier-ignore */
+  --ease-elastic: linear(
+    0, 0.186 2.1%, 0.778 7.2%, 1.027 9.7%, 1.133, 1.212, 1.264, 1.292 15.4%,
+    1.296, 1.294, 1.285, 1.269 18.9%, 1.219 20.9%, 1.062 25.8%, 0.995 28.3%,
+    0.944 31.1%, 0.93, 0.921, 0.92 35.7%, 0.926, 0.94 39.7%, 1.001 47%, 1.014,
+    1.021 52.4%, 1.02 56.4%, 1 65.5%, 0.994 70.7%, 1.001 88.4%, 1
+  );
+  --ease-bounce-out: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+  from {
+    scale: var(--scale-start);
+  }
+  to {
+    scale: var(--scale-end);
+  }
+}
+
+@keyframes pop-back {
+  from {
+    scale: var(--scale-end);
+  }
+  to {
+    scale: var(--scale-start);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes text-gradient {
+  100% {
+    background-position: 150% center;
+  }
+}
+.text {
+  opacity: 0; /* ต้องมีค่าเริ่มต้น 0 */
+  transform: translateY(50px) scale(0.5); /* ต้องตรงกับ animate เริ่มต้น */
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+.box {
+  margin-block: 80vh;
+}
+.section_Hook {
+  background-color: #000000;
+  color: white;
+}
+.section_Hook,
+.section_Hook * {
+  margin: 0;
+  padding: 0;
+}
+/* .section_Hook {
+  background-color: black; 
+  margin: 0;
+  padding: 0;
+  position: relative;
+} */
+.section_Hook .box {
+  height: 85vh; /* ✅ แต่ละ box เต็มจอ */
+  display: flex;
+  justify-content: center; /* กลางแนวนอน */
+  align-items: center; /* กลางแนวตั้ง */
+}
+
+.section_Hook .text {
+  color: white;
+  font-size: 2rem; /* ปรับขนาดตามต้องการ */
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+}
+.btn-hook {
+  background-color: #dc2626; /* สีพื้นแดง */
+  border-radius: 0.8vw;
+  width: 16vw;
+  height: 4.5vw;
+  transition: all 0.2s; /* hover ลื่น */
+  cursor: pointer; /* pointer */
+  display: flex; /* flex เพื่อให้ข้อความอยู่กลางปุ่ม */
+  align-items: center; /* แนวตั้งกลาง */
+  justify-content: center; /* แนวนอนกลาง */
+}
+
+.btn-hook:hover {
+  background-color: white; /* hover เปลี่ยนพื้นหลัง */
+  color: #dc2626; /* hover เปลี่ยนสีตัวอักษร */
 }

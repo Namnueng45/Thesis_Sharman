@@ -5,8 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bgsection1 from "../assets/section1.jpg";
 import styles from "./Character.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-// import AOS from "aos";
-// import "aos/dist/aos.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +15,7 @@ function Home() {
   const [activeChar, setActiveChar] = useState("kla");
   const [selectedImage, setSelectedImage] = useState(null);
   const arrowRef = useRef(null); // 👈 1. สร้าง ref สำหรับลูกศร
+  const boxesRef = useRef([]);
 
   // Parallax Effect สำหรับ Hero Section - เหมือน CodePen
   useEffect(() => {
@@ -93,6 +94,7 @@ function Home() {
       {
         opacity: 1, // ทำให้ทึบแสง 100% เมื่อ scroll ถึงสุด
         ease: "none",
+        duration: 0.4,
       },
       0
     );
@@ -319,8 +321,8 @@ function Home() {
           <br /> est, elementum et lorem id,
         </>
       ),
-      image: "/img/parallax/kraCharactor.png",
-      icon: "/img/parallax/iconchar1.png",
+      image: "/img/parallax/OldmanCharactor.png",
+      icon: "/img/parallax/iconchar3.png",
       className: styles.char3,
     },
     bodyguard: {
@@ -359,7 +361,7 @@ function Home() {
     },
   };
 
-  // ✨ useEffect ใหม่: สำหรับแอนิเมชันลูกศรเลือกตัวละคร
+  // ✨ ลูกศรขยับ Importain
   useEffect(() => {
     // 2. หา index ของตัวละครที่ถูกเลือก (0, 1, 2, ...)
     const charIndex = Object.keys(characters).indexOf(activeChar);
@@ -387,150 +389,118 @@ function Home() {
         opacity: 1,
         ease: "power2.out",
       });
-  }, [activeChar]); // 5. ให้ useEffect นี้ทำงาน "ทุกครั้งที่" activeChar เปลี่ยน
+  }, [activeChar]);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".main_section", // 👈 เปลี่ยนกลับเป็น trigger เดิมที่ใช้
-          start: "top 60%", // เริ่มอนิเมชันเมื่อถึงจุดนี้
-          end: "center top", // สิ้นสุดอนิเมชันเมื่อ main_section ออกจาก viewport
-          scrub: 1.5,
-          // markers: true,
-        },
-      });
-
-      // สร้างตัวแปรความยาวของอนิเมชัน (ใน Timeline)
-      const animScrollLength = 0.5; // 👈 ใช้ค่าที่น้อยเพื่อให้อนิเมชันรวดเร็ว/กระชับ
-
-      // --- 1. แอนิเมชัน "ขาเข้า" (จากล่าง-หาย เข้าสู่ตำแหน่งปกติ) ---
-      // from: เริ่มจากค่าที่กำหนด ไปยังค่าปกติ (y: 0, opacity: 1)
-      tl.from(
-        ".Head_storytext",
-        {
-          y: 100, // เริ่มจากต่ำลงมา 100px
-          opacity: 0, // เริ่มจากโปร่งใส
-          ease: "power3.out",
-          duration: animScrollLength,
-        },
-        0 // 👈 เริ่มต้น Timeline ที่ตำแหน่ง 0
-      );
-
-      // --- 2. แอนิเมชัน "ขาออก" (จากตำแหน่งปกติ ไปสู่บน-หาย) ---
-      // to: จากค่าปกติ ไปยังค่าที่กำหนด (y: -100, opacity: 0)
-      tl.to(
-        ".Head_storytext",
-        {
-          y: -100, // เลื่อนขึ้นไปข้างบน 100px
-          opacity: 0, // จางหายไป
-          ease: "power2.in",
-          duration: animScrollLength,
-        }
-        // ตำแหน่ง: เริ่มทันทีหลังจากอนิเมชันแรกจบ
-        // 👈 ใส่ดีเลย์เล็กน้อย หรือ ใช้ตำแหน่งอื่น เช่น `1`
-      );
+    AOS.init({
+      offset: 300,
+      once: false,
     });
-
-    return () => ctx.revert();
   }, []);
 
-  //icon_arrow
+  //icon_arrow selected
+  // useEffect(() => {
+  //   // 💡 ไม่ต้องใช้ AOS.init() ซ้ำๆ ใน Home component (ควรทำใน _app.js)
+  //   // แต่เราจะใช้ GSAP แทน
+
+  //   const ctx = gsap.context(() => {
+  //     const targetElement = arrowRef.current;
+  //     if (!targetElement) return;
+
+  //     // 💡 ตั้งค่า 3D Perspective และ Backface Visibility
+  //     gsap.set(targetElement, {
+  //       transformPerspective: 800,
+  //       backfaceVisibility: "hidden",
+  //     });
+
+  //     const tl = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: ".main_section",
+  //         start: "top 60%", // เริ่ม Flip เข้า
+  //         end: "center top", // จบ Flip ออก
+  //         scrub: 1.5,
+  //         // markers: true,
+  //       },
+  //     });
+
+  //     const animScrollLength = 0.5;
+  //     const restTime = 0.2;
+
+  //     // --- 1. Flip เข้า (Flip-in) ---
+  //     tl.from(
+  //       targetElement,
+  //       {
+  //         opacity: 0,
+  //         rotationY: 180, // พลิกจาก 180 องศามาที่ 0
+  //         ease: "power3.out",
+  //         duration: animScrollLength,
+  //       },
+  //       0
+  //     );
+
+  //     // --- 2. Flip ออก (Flip-out) ---
+  //     tl.to(
+  //       targetElement,
+  //       {
+  //         opacity: 0,
+  //         rotationY: "+=180", // พลิกต่ออีก 180 องศาพร้อมจางหาย
+  //         ease: "power2.in",
+  //         duration: animScrollLength,
+  //       },
+  //       `+=${animScrollLength + restTime}`
+  //     );
+  //   });
+
+  //   return () => ctx.revert();
+  //   // 💡 ต้องใส่ [arrowRef] ใน Dependency Array เพื่อให้แน่ใจว่า GSAP สร้าง Timeline เมื่อ ref ถูกผูกกับ Element
+  // }, [arrowRef]);
+
+  // section ดูหนัง สำคัญ
+
+  // garery
+
   useEffect(() => {
-    // 💡 ไม่ต้องใช้ AOS.init() ซ้ำๆ ใน Home component (ควรทำใน _app.js)
-    // แต่เราจะใช้ GSAP แทน
+    const observers = [];
 
-    const ctx = gsap.context(() => {
-      const targetElement = arrowRef.current;
-      if (!targetElement) return;
+    boxesRef.current.forEach((box) => {
+      if (!box) return;
+      const text = box.querySelector(".text");
+      if (!text) return;
 
-      // 💡 ตั้งค่า 3D Perspective และ Backface Visibility
-      gsap.set(targetElement, {
-        transformPerspective: 800,
-        backfaceVisibility: "hidden",
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".main_section",
-          start: "top 60%", // เริ่ม Flip เข้า
-          end: "center top", // จบ Flip ออก
-          scrub: 1.5,
-          // markers: true,
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            // 🌑 ค่อย ๆ โผล่จากกลาง
+            gsap.fromTo(
+              text,
+              { opacity: 0, scale: 0.8 }, // เริ่มเล็กและโปร่ง
+              {
+                opacity: 1,
+                scale: 1,
+                duration: 1.4,
+                ease: "power2.out", // ค่อย ๆ มา ไม่มีเด้ง
+                overwrite: "auto",
+              }
+            );
+          } else {
+            // 🌒 ค่อย ๆ จางหายกลับ
+            gsap.to(text, {
+              opacity: 0,
+              scale: 0.9,
+              duration: 0.8,
+              ease: "power2.inOut",
+            });
+          }
         },
-      });
-
-      const animScrollLength = 0.5;
-      const restTime = 0.2;
-
-      // --- 1. Flip เข้า (Flip-in) ---
-      tl.from(
-        targetElement,
-        {
-          opacity: 0,
-          rotationY: 180, // พลิกจาก 180 องศามาที่ 0
-          ease: "power3.out",
-          duration: animScrollLength,
-        },
-        0
+        { threshold: 0.5 }
       );
 
-      // --- 2. Flip ออก (Flip-out) ---
-      tl.to(
-        targetElement,
-        {
-          opacity: 0,
-          rotationY: "+=180", // พลิกต่ออีก 180 องศาพร้อมจางหาย
-          ease: "power2.in",
-          duration: animScrollLength,
-        },
-        `+=${animScrollLength + restTime}`
-      );
+      observer.observe(box);
+      observers.push(observer);
     });
 
-    return () => ctx.revert();
-    // 💡 ต้องใส่ [arrowRef] ใน Dependency Array เพื่อให้แน่ใจว่า GSAP สร้าง Timeline เมื่อ ref ถูกผูกกับ Element
-  }, [arrowRef]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const targetElement = arrowRef.current;
-      if (!targetElement) return;
-
-      // 💡 FIX: ใช้ gsap.set() เพื่อบังคับให้ Element อยู่ในสถานะเริ่มต้น
-      // (หายไปและเลื่อนไปทางซ้าย) ทันทีที่โหลด
-      gsap.set(targetElement, {
-        opacity: 0,
-        x: -50,
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".main_section",
-          start: "top 40%",
-          end: "80% 60%",
-          scrub: true,
-          markers: true,
-        },
-      });
-
-      const fastDuration = 0.15;
-
-      tl.to(targetElement, {
-        opacity: 1,
-        x: 0,
-        ease: "power2.out",
-      });
-      tl.to(targetElement, {
-        opacity: 0,
-        x: -50,
-        ease: "power2.in",
-        duration: fastDuration,
-      });
-    });
-
-    return () => ctx.revert();
-  }, [arrowRef]);
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
   const handleMouseMove = (e) => {
     const { innerWidth, innerHeight } = window;
@@ -543,6 +513,32 @@ function Home() {
     "/img/parallax/screen2.png",
     "/img/parallax/screen3.png",
   ];
+
+  const galleryRef = useRef(null);
+
+  useEffect(() => {
+    const el = galleryRef.current;
+    if (!el) return;
+
+    gsap.fromTo(
+      el,
+      { y: 80, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          end: "bottom 20%",
+          scrub: false,
+          toggleActions: "play reverse play reverse",
+          markers: true,
+        },
+      }
+    );
+  }, []);
 
   return (
     <>
@@ -747,6 +743,8 @@ function Home() {
           <h2
             className="Head_storytext text-[128px] text-[#C23213] font-light"
             style={{ fontFamily: '"MAX somsin", sans-serif' }}
+            data-aos="fade-up" // ใช้ fade
+            data-aos-duration="1000" // เวลาของ fade
           >
             ตัวละคร
           </h2>
@@ -761,6 +759,9 @@ function Home() {
               />
               {Object.keys(characters).map((key) => (
                 <img
+                  data-aos="flip-right"
+                  data-aos-duration="1000" // เวลาของ fade
+                  data-aos-offset="100"
                   key={key}
                   src={characters[key].icon}
                   alt={characters[key].name}
@@ -780,12 +781,26 @@ function Home() {
               <h3
                 className="Head_name text-[90px] text-white font-light mb-[-10px] mt-[-2vw]"
                 style={{ fontFamily: '"MAX somsin", sans-serif' }}
+                data-aos="fade-up" // ใช้ fade
+                data-aos-duration="1500" // เวลาของ fade
+                data-aos-offset="300"
               >
                 {characters[activeChar].name}
               </h3>
-              <div className="border-b border-[#DCDCDC] w-[20vw] border-[0.5px]"></div>
+              <div
+                className="border-b border-[#DCDCDC] w-[20vw] border-[0.5px]"
+                data-aos="flip-right"
+                data-aos-duration="1000" // เวลาของ fade
+                data-aos-delay="500"
+              ></div>
               <div className="mt-[1.8vw]">
-                <p className="content_textChar text-[20px] font-normal leading-10 tracking-[0.14vw]">
+                <p
+                  className="content_textChar text-[20px] font-normal leading-10 tracking-[0.14vw]"
+                  data-aos="fade-up" // ใช้ fade
+                  data-aos-anchor-placement="top-bottom"
+                  data-aos-delay="400"
+                  data-aos-offset="200"
+                >
                   {characters[activeChar].description}
                 </p>
               </div>
@@ -814,6 +829,10 @@ function Home() {
                     src={characters[activeChar].image}
                     alt={characters[activeChar].name}
                     className="w-full h-auto"
+                    data-aos="zoom-in"
+                    data-aos-offset="680"
+                    data-aos-delay="400"
+                    data-aos-duration="1000" // เวลาของ fade
                   />
                 </div>
               </motion.div>
@@ -824,11 +843,44 @@ function Home() {
 
       {/* Rest of the sections remain the same... */}
       {/* Black Spacer */}
-      <section className="relative h-[10vw] flex items-start z-12 bg-black">
-        <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
+      <section className="relative h-[20vw] flex items-start z-12 bg-black">
+        <div className="absolute z-11 bottom-0 left-0 w-full h-[20vw] bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
       </section>
+
+      <section className="section_Hook">
+        {[
+          "ภาพยนตร์มีเรื่องนี้ไม่ใช่แค่การรับชม",
+          "คุณจะได้มีส่วนร่วมในกำหนดเส้นทางและชะตากรรมของเรื่อง..",
+          "ทุกการตัดสินใจที่คุณเลือก...จะเปลี่ยนตอนจบไปตลอดกาล",
+          "ปุ่ม",
+        ].map((text, i) => (
+          <div key={i} className="box" ref={(el) => (boxesRef.current[i] = el)}>
+            {text === "ปุ่ม" ? (
+              <div className="relative">
+                {/* ✅ ภาพ parallax */}
+                {/* <img
+                  src="/img/parallax/Nongtalung.png"
+                  alt="Parallax background"
+                  className="absolute top-[-10vw] left-[-30vw] object-cover parallax-img"
+                /> */}
+                {/* ✅ ปุ่ม */}
+                <button className="text btn-hook relative z-10">
+                  รับชมภาพยนตร์
+                </button>
+              </div>
+            ) : (
+              <div className="text">{text}</div>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <section className="relative h-[20vw] flex items-start z-12 bg-black ">
+        <div className="absolute z-[11] top-0 left-0 w-full h-[15vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+      </section>
+
       {/* Interactive Movie Section */}
-      <section
+      {/* <section
         id="trailer"
         className="relative h-[50vw] flex flex-col items-center justify-center z-12 text-center"
       >
@@ -852,8 +904,9 @@ function Home() {
           </button>
           <p>ทุกการตัดสินใจที่คุณเลือก...จะเปลี่ยนตอนจบไปตลอดกาล</p>
         </div>
-      </section>
+      </section> */}
       {/* Gallery Section */}
+
       <section
         id="gallery"
         className="relative h-[50vw] flex flex-col items-center justify-center z-12 text-center bg-black"
@@ -864,13 +917,14 @@ function Home() {
         <div className="relative text-[20px] z-20 text-white tracking-[0.2vw] font-light">
           <div className="w-[48vw] h-[27vw]">
             <img
+              data-aos="fade-up"
               src="/img/parallax/screen1.png"
               alt="main"
               className="w-full h-full object-cover shadow-lg"
             />
           </div>
 
-          <div className="flex gap-[1.5vw] mt-[1.5vw]">
+          <div ref={galleryRef} className="flex gap-[1.5vw] mt-[1.5vw]">
             {images.map((img, i) => (
               <div key={i} className="w-[15vw] h-[6vw]">
                 <img
@@ -900,6 +954,11 @@ function Home() {
           )}
         </div>
       </section>
+
+      <section className="relative h-[10vw] flex items-start z-12 bg-black ">
+        <div className="absolute z-[11] top-0 left-0 w-full h-[10vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+      </section>
+
       {/* Results Section */}
       <section
         id="results"
@@ -916,7 +975,7 @@ function Home() {
 
         <div className="z-20 tracking-[0.2vw] mt-[1vw] mb-[1.5vw]">
           <h2
-            className="Head_storytext text-[128px] text-[#C23213] font-light z-30"
+            className="Head_storytextName text-[128px] text-[#C23213] font-light z-30"
             style={{ fontFamily: '"MAX somsin", sans-serif' }}
           >
             ผลลัพธ์

@@ -2,7 +2,7 @@
 .kla {
   width: 20vw;
   position: absolute;
-  top: 5vw;
+  top: 4.5vw;
   right: 15vw;
 }
 
@@ -69,9 +69,9 @@
 
 /* char3 */
 .char3 {
-  width: 20vw;
+  width: 23vw;
   position: absolute;
-  top: 5vw;
+  top: 6vw;
   right: 15vw;
 }
 
