@@ -9,6 +9,46 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 gsap.registerPlugin(ScrollTrigger);
+const CountingNumber = ({ targetNumber, className, triggerRef }) => {
+  const [displayedNumber, setDisplayedNumber] = useState(0);
+  // 1. ✅ เพิ่ม Local Ref เพื่อเก็บค่าที่เสถียร
+  const currentTriggerRef = useRef(null);
+
+  useEffect(() => {
+    // 2. ✅ อัปเดตค่า Ref ภายในทุกครั้งที่ Prop เปลี่ยน
+    currentTriggerRef.current = triggerRef.current;
+    if (!triggerRef.current) return;
+
+    const counter = { val: 0 };
+    let tween;
+
+    const st = ScrollTrigger.create({
+      trigger: currentTriggerRef.current,
+      start: "0% 80%",
+
+      once: true,
+      onEnter: () => {
+        gsap.to(counter, {
+          val: targetNumber,
+          duration: 1.5,
+          ease: "power2.out",
+          onUpdate: () => {
+            setDisplayedNumber(Math.round(counter.val));
+          },
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
+      if (tween) tween.kill();
+    };
+    // 2. ✅ แก้ไข: ลบ triggerRef ออกจาก Dependency Array เพื่อป้องกันการรันซ้ำ
+  }, [targetNumber, triggerRef.current]); // <--- แก้ไขตรงนี้
+
+  // 3. ✅ Return JSX (ต้องอยู่นอก useEffect)
+  return <p className={className}>{displayedNumber}%</p>;
+};
 
 function Home() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -516,6 +556,7 @@ function Home() {
 
   const galleryRef = useRef(null);
 
+  //ส่วนรูปภาพ
   useEffect(() => {
     const el = galleryRef.current;
     if (!el) return;
@@ -530,15 +571,17 @@ function Home() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
+          start: "top 86%",
           end: "bottom 20%",
           scrub: false,
+
           toggleActions: "play reverse play reverse",
-          markers: true,
         },
       }
     );
   }, []);
+
+  const resultItemRefs = useRef([]);
 
   return (
     <>
@@ -570,7 +613,7 @@ function Home() {
           </li>
           <li>
             <a
-              href="#trailer"
+              href="#movie"
               className="text-white hover:text-[#C23213] transition-colors"
             >
               MOVIE
@@ -675,7 +718,7 @@ function Home() {
       {/* Story Section */}
       <section
         id="synopsis"
-        className="synopsisSS relative h-[65vw] flex items-center"
+        className="synopsisSS relative h-[65vw] flex items-center scroll-target"
       >
         <div
           className="absolute w-[102%] h-[65vw] z-10 bg-cover bg-center brightness-70 blur-[4px] top-0 left-[-10px]"
@@ -693,7 +736,10 @@ function Home() {
         />
 
         {/* overlay บนล่าง และมี backdrop */}
-        <div className="overlayupper absolute z-30 top-[-2.5vw] left-0 w-full h-[18vw] bg-gradient-to-b from-black/100 via-black/70 to-transparent"></div>
+        <div
+          id="sYnopsisd"
+          className="overlayupper absolute z-30 top-[-2.5vw] left-0 w-full h-[18vw] bg-gradient-to-b from-black/100 via-black/70 to-transparent"
+        ></div>
         <div className="overlayupper absolute z-30 bottom-[-5px] left-0 w-full h-[18vw] bg-gradient-to-t from-black/100 via-black/30 to-transparent"></div>
         <div className="absolute inset-0 bg-[#070D07]/50 pointer-events-none z-20"></div>
 
@@ -706,6 +752,7 @@ function Home() {
             ที่นั่น
             เขาต้องเผชิญหน้ากับสิ่งที่ครั้งหนึ่งเคยใช้เป็นเพียงเครื่องมือหากิน{" "}
           </p>
+
           <p className="content_text2 text-center text-[1.4vw] font-normal leading-[3.3vw] tracking-[0.2vw] text-white">
             ทว่าความสยองที่รออยู่กลับเกินกว่าที่เขาจะจินตนาการ <br />
             กล้าจะต้องหาทางผ่านอุปสรรคต่างและเอาชีวิตรอดกลับออกมาให้ได้ <br />
@@ -717,7 +764,7 @@ function Home() {
           </p>
         </div>
       </section>
-
+      <div id="sYnopsisd"></div>
       {/* Black Spacer */}
       <section className="relative h-[10vw] flex items-start z-12 bg-black">
         <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
@@ -847,7 +894,7 @@ function Home() {
         <div className="absolute z-11 bottom-0 left-0 w-full h-[20vw] bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
       </section>
 
-      <section className="section_Hook">
+      <section id="movie" className="section_Hook">
         {[
           "ภาพยนตร์มีเรื่องนี้ไม่ใช่แค่การรับชม",
           "คุณจะได้มีส่วนร่วมในกำหนดเส้นทางและชะตากรรมของเรื่อง..",
@@ -955,17 +1002,17 @@ function Home() {
         </div>
       </section>
 
-      <section className="relative h-[10vw] flex items-start z-12 bg-black ">
-        <div className="absolute z-[11] top-0 left-0 w-full h-[10vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+      <section className="relative h-[8vw] flex items-start z-12 bg-black ">
+        <div className="absolute z-[11] top-0 left-0 w-full h-[8vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
       </section>
 
       {/* Results Section */}
       <section
         id="results"
-        className="relative h-[50vw] flex flex-col items-center justify-center z-12"
+        className="relative h-[60vw] flex flex-col items-center justify-center z-12 scroll-target2"
       >
         <div
-          className="absolute w-[101vw] h-[50vw] bg-cover bg-center brightness-50 blur-[2px] top-0 left-[-10px]"
+          className="absolute w-[101vw] h-[60vw] bg-cover bg-center brightness-50 blur-[2px] top-0 left-[-10px]"
           style={{ backgroundImage: "url('/img/parallax/section6.jpg')" }}
         ></div>
 
@@ -973,56 +1020,86 @@ function Home() {
         <div className="absolute z-100 bottom-[-1vw] left-0 w-full h-20 bg-gradient-to-t from-black/100 via-black/60 to-black/0"></div>
         <div className="absolute inset-0 bg-[#070D07]/50 pointer-events-none z-20"></div>
 
-        <div className="z-20 tracking-[0.2vw] mt-[1vw] mb-[1.5vw]">
-          <h2
-            className="Head_storytextName text-[128px] text-[#C23213] font-light z-30"
-            style={{ fontFamily: '"MAX somsin", sans-serif' }}
-          >
-            ผลลัพธ์
-          </h2>
-        </div>
+        <div className="z-20 text-center mt-[-5vw]">
+          <div className="tracking-[0.2vw] mt-[1vw] mb-[-1vw] ">
+            <h2
+              data-aos="fade-up"
+              data-aos-anchor-placement="top-bottom"
+              data-aos-delay="200"
+              data-aos-offset="400"
+              className="Head_storytextName text-[128px] text-[#C23213] font-light z-30"
+              style={{ fontFamily: '"MAX somsin", sans-serif' }}
+            >
+              ผลลัพธ์
+            </h2>
+          </div>
 
-        <div className="z-20 flex flex-col gap-[1.6vw]">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="flex items-center justify-center gap-12">
-              <div className="flex flex-row items-center w-[20vw] text-white mt-[-2.5vw] gap-[1.5vw]">
-                <p className="text-[0.9vw] leading-relaxed opacity-70 text-right">
-                  เนื้อหาของตัวละครตัวที่ {i} อธิบายเรื่องราวสั้น ๆ
-                </p>
-                <p className="text-[4vw] font-bold mt-[-0.1vw]">
-                  {50 + i * 10}%
-                </p>
-              </div>
+          <div className="z-20 flex flex-col gap-[1.6vw]">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                ref={(el) => (resultItemRefs.current[i] = el)}
+                className="flex items-center justify-center gap-12 "
+                data-aos="fade-up"
+                data-aos-offset="200"
+                data-aos-delay="200"
+              >
+                <div className="flex flex-row items-center w-[20vw] text-white mt-[-2.5vw] gap-[1.5vw]">
+                  <p className="text-[0.9vw] leading-relaxed opacity-70 text-right">
+                    เนื้อหาของตัวละครตัวที่ {i} อธิบายเรื่องราวสั้น ๆ
+                  </p>
+                  <CountingNumber
+                    targetNumber={50 + i * 10}
+                    className="text-[4vw] font-bold mt-[-0.1vw]"
+                    // ✅ แก้ไข: ดึง Element ตรงๆ จาก Object แทน Array Index (ใช้ i แทน i-1)
+                    triggerRef={{ current: resultItemRefs.current[i] }}
+                  />
+                </div>
 
-              <div className="w-[14vw]">
-                <img
-                  src="/img/parallax/screen1.png"
-                  alt={`character ${i}`}
-                  className="shadow-lg h-[7vw] w-[14vw]"
-                />
-                <p className="mt-[1vw] text-[20px] text-center text-white text-[1vw] tracking-wide">
-                  ชื่อตัวละคร {i}
-                </p>
-              </div>
+                <div className="w-[14vw]">
+                  <img
+                    data-aos="fade-up"
+                    data-aos-offset="200"
+                    data-aos-delay="200"
+                    src="/img/parallax/screen1.png"
+                    alt={`character ${i}`}
+                    className="shadow-lg h-[7vw] w-[14vw]"
+                  />
+                  <p className="mt-[1vw] text-[20px] text-center text-white text-[1vw] tracking-wide">
+                    ชื่อตัวละคร {i}
+                  </p>
+                </div>
 
-              <div className="flex flex-row items-center w-[20vw] text-white mt-[-2.5vw] gap-[1.5vw]">
-                <p className="text-[4vw] font-bold mt-[-0.1vw]">
-                  {60 + i * 10}%
-                </p>
-                <p className="text-[0.9vw] leading-relaxed opacity-70 text-left">
-                  ข้อมูลเสริมของตัวละครตัวที่ {i} อาจจะเป็นพลังหรือคุณสมบัติ
-                </p>
+                <div className="flex flex-row items-center w-[20vw] text-white mt-[-2.5vw] gap-[1.5vw]">
+                  <CountingNumber
+                    targetNumber={60 + i * 10}
+                    className="text-[4vw] font-bold mt-[-0.1vw]"
+                    triggerRef={{ current: resultItemRefs.current[i] }} // 💥 FIX 4
+                  />
+                  <p className="text-[0.9vw] leading-relaxed opacity-70 text-left">
+                    ข้อมูลเสริมของตัวละครตัวที่ {i} อาจจะเป็นพลังหรือคุณสมบัติ
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
+
+      <section className="relative h-[6vw] flex items-start z-12 bg-black ">
+        <div className="absolute z-[11] top-0 left-0 w-full h-[6vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+      </section>
+
       {/* Footer */}
       <footer className="h-[30vw] bg-black flex justify-center items-center flex-col gap-10">
         <div className="flex justify-center items-center gap-10">
-          <img src="/img/parallax/AAD.svg" alt="AAD" className="w-[8%]" />
-          <img src="/img/parallax/DMP.svg" alt="DMP" className="w-[8%]" />
-          <img src="/img/parallax/logokmit.svg" alt="KMIT" className="w-[8%]" />
+          <img src="/img/parallax/AAD.svg" alt="AAD" className="w-[25%]" />
+          <img src="/img/parallax/DMP.svg" alt="DMP" className="w-[25%]" />
+          <img
+            src="/img/parallax/logokmit.svg"
+            alt="KMIT"
+            className="w-[25%]"
+          />
         </div>
         <div className="flex justify-center items-center flex-col text-center gap-3">
           <div className="flex justify-center items-center gap-2">

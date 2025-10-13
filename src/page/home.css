@@ -288,7 +288,7 @@ html {
   position: relative;
 } */
 .section_Hook .box {
-  height: 85vh; /* ✅ แต่ละ box เต็มจอ */
+  height: 78vh; /* ✅ แต่ละ box เต็มจอ */
   display: flex;
   justify-content: center; /* กลางแนวนอน */
   align-items: center; /* กลางแนวตั้ง */
@@ -317,4 +317,14 @@ html {
 .btn-hook:hover {
   background-color: white; /* hover เปลี่ยนพื้นหลัง */
   color: #dc2626; /* hover เปลี่ยนสีตัวอักษร */
+}
+.scroll-target {
+  /* * [คอมเมนต์] กำหนดระยะห่างด้านบนเวลา scroll มาถึง
+   * ลองปรับค่า 100px นี้ให้เท่ากับความสูงของ Navbar ของคุณ
+   * อาจจะเป็น 80px, 120px, หรือ 10vh ก็ได้
+   */
+  scroll-margin-top: -210px;
+}
+.scroll-target2 {
+  scroll-margin-top: -110px;
 }
