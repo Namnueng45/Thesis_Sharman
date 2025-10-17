@@ -1,9 +1,9 @@
 /* กล้า */
 .kla {
-  width: 20vw;
+  width: 36vw;
   position: absolute;
-  top: 4.5vw;
-  right: 15vw;
+  top: 8vw;
+  right: 10vw;
 }
 
 @media (max-width: 1024px) {
@@ -26,16 +26,16 @@
 .bodyguard {
   width: 33vw;
   position: absolute;
-  right: 7vw; /* ค่าพื้นฐานที่จอใหญ่สุด */
+  right: 10vw; /* ค่าพื้นฐานที่จอใหญ่สุด */
+  top: 8.5vw;
 }
-
 /* จาก 1690px ลงมา */
-@media (min-width: 1690px) {
+/* @media (min-width: 1690px) {
   .bodyguard {
     top: 3vw;
     right: 6vw;
   }
-}
+} */
 @media (max-width: 1690px) {
   .bodyguard {
     top: 3vw;
@@ -67,17 +67,17 @@
   }
 }
 
-/* char3 */
-.char3 {
-  width: 23vw;
+/* owner */
+.owner {
+  width: 36vw;
   position: absolute;
   top: 6vw;
-  right: 15vw;
+  right: 9vw;
 }
 
 @media (max-width: 1024px) {
   /* md */
-  .char3 {
+  .owner {
     width: 20vw;
     right: 16vw;
   }
@@ -85,53 +85,54 @@
 
 @media (max-width: 640px) {
   /* sm */
-  .char3 {
+  .owner {
     width: 25vw;
     right: 5vw;
   }
 }
 
-/* char4 */
-.char4 {
-  width: 33vw;
+/* monster */
+.monster {
+  width: 30vw;
   position: absolute;
-  right: 7vw; /* ค่าพื้นฐานที่จอใหญ่สุด */
+  right: 10vw;
+  top: 8vw;
 }
 
 /* จาก 1690px ลงมา */
-@media (min-width: 1690px) {
-  .char4 {
+/* @media (min-width: 1690px) {
+  .monster {
     top: 3vw;
     right: 6vw;
   }
-}
+} */
 @media (max-width: 1690px) {
-  .char4 {
+  .monster {
     top: 3vw;
     right: 6vw;
   }
 }
 
 @media (max-width: 1280px) {
-  .char4 {
+  .monster {
     right: 8vw;
   }
 }
 
 @media (max-width: 1024px) {
-  .char4 {
+  .monster {
     right: 6.5vw;
   }
 }
 
 @media (max-width: 768px) {
-  .char4 {
+  .monster {
     right: 1vw;
   }
 }
 
 @media (max-width: 640px) {
-  .char4 {
+  .monster {
     right: 12vw;
   }
 }
