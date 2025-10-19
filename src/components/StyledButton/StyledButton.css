@@ -22,7 +22,7 @@
   padding: 1.2vw 1vw 1.2vw 2vw;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: var(--main-size); /* ฟอนต์จะใช้ค่าจาก --main-size โดยอัตโนมัติ */
+  font-size: 2.08vw; /* ฟอนต์จะใช้ค่าจาก --main-size โดยอัตโนมัติ */
   color: var(--color-text);
   background: var(--color-background);
   box-shadow: 0 0 0.2em 0 var(--color-background);

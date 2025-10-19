@@ -2,25 +2,26 @@
 .kla {
   width: 36vw;
   position: absolute;
-  top: 8vw;
+  top: 7vw;
   right: 10vw;
 }
 
-@media (max-width: 1024px) {
-  /* md */
+/* @media (max-width: 1400px) {
+ 
   .kla {
-    width: 20vw;
+    border: 1px solid rgb(0, 255, 4);
+    width: 22vw;
     right: 16vw;
   }
 }
 
 @media (max-width: 640px) {
-  /* sm */
+ 
   .kla {
     width: 25vw;
     right: 5vw;
   }
-}
+} */
 
 /* บอร์ดี้การ์ด */
 .bodyguard {
@@ -36,7 +37,7 @@
     right: 6vw;
   }
 } */
-@media (max-width: 1690px) {
+/* @media (max-width: 1690px) {
   .bodyguard {
     top: 3vw;
     right: 6vw;
@@ -65,7 +66,7 @@
   .bodyguard {
     right: 12vw;
   }
-}
+} */
 
 /* owner */
 .owner {
@@ -75,8 +76,7 @@
   right: 9vw;
 }
 
-@media (max-width: 1024px) {
-  /* md */
+/* @media (max-width: 1024px) {
   .owner {
     width: 20vw;
     right: 16vw;
@@ -84,19 +84,18 @@
 }
 
 @media (max-width: 640px) {
-  /* sm */
   .owner {
     width: 25vw;
     right: 5vw;
   }
-}
+} */
 
 /* monster */
 .monster {
   width: 30vw;
   position: absolute;
   right: 10vw;
-  top: 8vw;
+  top: 10vw;
 }
 
 /* จาก 1690px ลงมา */
@@ -106,7 +105,7 @@
     right: 6vw;
   }
 } */
-@media (max-width: 1690px) {
+/* @media (max-width: 1690px) {
   .monster {
     top: 3vw;
     right: 6vw;
@@ -135,4 +134,4 @@
   .monster {
     right: 12vw;
   }
-}
+} */

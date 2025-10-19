@@ -17,8 +17,6 @@
 }
 .content_textChar {
   text-align: justify;
-  /* 2. (สำคัญมาก) อนุญาตให้เบราว์เซอร์ตัดคำตรงไหนก็ได้ */
-  /* ช่วยให้การ justify ทำงานกับภาษาไทยได้ดีขึ้นมาก */
   word-break: break-word;
 }
 .pin-container {
@@ -70,9 +68,9 @@
   .main_section {
     top: 2vw;
   }
-  .content_textChar {
+  /* .content_textChar {
     line-height: 36px;
-  }
+  } */
 }
 
 /* สำหรับหน้าจอ < 1290px (md) */
@@ -94,9 +92,9 @@
   .content_hero {
     margin-top: 1vw;
   }
-  .content_textChar {
+  /* .content_textChar {
     line-height: 32px;
-  }
+  } */
   .Head_name {
     font-size: 66px;
   }
@@ -137,9 +135,9 @@
   .Head_name {
     font-size: 40px;
   }
-  .content_textChar {
+  /* .content_textChar {
     line-height: 28px;
-  }
+  } */
   .bt_sharman {
     margin-top: 1vw;
   }
@@ -268,7 +266,7 @@ html {
 .text {
   opacity: 0; /* ต้องมีค่าเริ่มต้น 0 */
   transform: translateY(50px) scale(0.5); /* ต้องตรงกับ animate เริ่มต้น */
-  font-size: 2rem;
+  font-size: 2.08vw;
   font-weight: bold;
   text-align: center;
 }
@@ -299,7 +297,7 @@ html {
 
 .section_Hook .text {
   color: white;
-  font-size: 2rem; /* ปรับขนาดตามต้องการ */
+  font-size: 2.08vw; /* ปรับขนาดตามต้องการ */
   text-align: center;
   line-height: 1.4;
   margin: 0;
@@ -321,16 +319,20 @@ html {
   background-color: white; /* hover เปลี่ยนพื้นหลัง */
   color: #dc2626; /* hover เปลี่ยนสีตัวอักษร */
 }
-.scroll-target {
-  /* * [คอมเมนต์] กำหนดระยะห่างด้านบนเวลา scroll มาถึง
-   * ลองปรับค่า 100px นี้ให้เท่ากับความสูงของ Navbar ของคุณ
-   * อาจจะเป็น 80px, 120px, หรือ 10vh ก็ได้
-   */
-  scroll-margin-top: -210px;
+.scroll-Story {
+  scroll-margin-top: -9.4vw;
 }
-.scroll-target2 {
-  scroll-margin-top: -10px;
+
+.scroll-Hook {
+  scroll-margin-top: 2vw;
 }
+.scroll-Garally {
+  scroll-margin-top: -2vw;
+}
+.scroll-Results {
+  scroll-margin-top: -1.8vw;
+}
+
 /* 1. สร้าง Keyframes สำหรับการเคลื่อนไหวและ fade out (ปรับใหม่) */
 /* 1. แก้ไข Keyframes: เพิ่ม "ช่วงพัก" เข้าไปในตอนท้าย */
 @keyframes scroll-with-pause {

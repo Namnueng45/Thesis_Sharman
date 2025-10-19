@@ -219,14 +219,6 @@ function Home() {
         ease: "power1.out",
         overwrite: "auto",
       });
-
-      gsap.to(".synopsis-tree", {
-        xPercent: x * 0.1, // ขยับตามเมาส์เล็กน้อย (ตัวคูณน้อยๆ)
-        yPercent: y * 0.1,
-        duration: 0.5, // ความนุ่มนวล
-        ease: "power1.out",
-        overwrite: "auto",
-      });
     };
 
     window.addEventListener("mousemove", handleLogoMouseMove);
@@ -268,7 +260,7 @@ function Home() {
     return () => ctx.revert();
   }, []);
 
-  // ✨ useEffect สำหรับมีด (Parallax + Rotate)
+  // ✨ useEffect สำหรับitem ซ้าย (Parallax + Rotate)
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -276,7 +268,7 @@ function Home() {
           trigger: ".content_summary",
           start: "top 50%",
           end: "bottom 45%",
-          scrub: 1.5,
+          scrub: 3,
           // markers: true,
         },
       });
@@ -286,33 +278,38 @@ function Home() {
 
       // --- แอนิเมชัน "ขาเข้า" ---
       tl.from(
-        ".knight_knife",
+        ".itemStory_left",
         {
           y: "100vh",
           rotation: -360,
+          rotationX: 45, // 👈 [เพิ่ม] เอียงไปข้างหน้า 45 องศา (เหมือนกำลังพุ่งลง)
+          rotationY: -30, // 👈 [เพิ่ม] เอียงไปทางซ้าย 30 องศา
           opacity: 0,
           ease: "power2.out",
           duration: animDuration, // 💥 เพิ่ม duration เข้าไป
         },
-        "+=1"
+        "+=0.5"
       );
 
       // --- แอนิเมชัน "ขาออก" ---
       tl.to(
-        ".knight_knife",
+        ".itemStory_left",
         {
           y: "-100vh",
           opacity: 0,
           rotation: 360,
+          rotationX: -45, // 👈 [เพิ่ม] เอียงไปข้างหลัง 45 องศา (เหมือนกำลังพุ่งออกไป)
+          rotationY: 30, // 👈 [เพิ่ม] เอียงไปทางขวา 30 องศา
           ease: "power1.in",
           duration: animDuration, // 💥 เพิ่ม duration เข้าไป
         },
-        "+=1"
+        "+=0.5"
       );
     });
     return () => ctx.revert();
   }, []);
 
+  // ✨ useEffect สำหรับitem ขวา (Parallax + Rotate)
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -329,7 +326,7 @@ function Home() {
 
       // --- แอนิเมชัน "ขาเข้า" (จากบนลงมา) ---
       tl.from(
-        ".knight_knife2", // 👈 [แก้ไข] เปลี่ยนชื่อคลาส
+        ".itemStory_right", // 👈 [แก้ไข] เปลี่ยนชื่อคลาส
         {
           y: "-80vh", // 👈 [แก้ไข] เปลี่ยนทิศทางให้มาจากข้างบน
           rotation: -360,
@@ -342,7 +339,7 @@ function Home() {
 
       // --- แอนิเมชัน "ขาออก" (ลงไปข้างล่าง) ---
       tl.to(
-        ".knight_knife2", // 👈 [แก้ไข] เปลี่ยนชื่อคลาส
+        ".itemStory_right", // 👈 [แก้ไข] เปลี่ยนชื่อคลาส
         {
           y: "100vh", // 👈 [แก้ไข] เปลี่ยนทิศทางให้ออกไปข้างล่าง
           opacity: 0,
@@ -361,14 +358,14 @@ function Home() {
     kla: {
       name: "กล้า",
       description: (
-        <>
-          หมอผีหนุ่มผู้ไรพลังวิเศษใดๆ
-          เขาใช้ชีวิตแค่ลองลวงเช้าบ้านไปวันแต่วันนึงกับเจอเรื่องไม่ขาดคิด
-          เขาถูกชายลึกลับมาพาตัวไปที่ คฤหาสต์แห่งหนึ่ง
-          คฤหาสต์ปริศนาที่เต็มไปด้วยความลับ เจ้าของคฤหาสต์
-          แห่งนั้นออกมาต้อนรับอย่างร้อนรน <br />
-          ก่อนที่ทั้งคู่จะเจอกับ เรื่องที่ไม่คาดฝัน.
-        </>
+        <p className="text-left break-words">
+          หมอผีหนุ่มผู้ไร้พลังวิเศษใดๆ เขาใช้ชีวิตแค่หลอกลวงชาวบ้านไปวันๆ
+          ทว่าวันหนึ่งกลับเจอเรื่องไม่ขาดคิด
+          เขาถูกชายลึกลับพาตัวไปยังคฤหาสน์แห่งหนึ่ง
+          คฤหาสน์ปริศนาที่เต็มไปด้วยความลับ
+          ซึ่งเจ้าของคฤหาสน์ได้ออกมาต้อนรับอย่างรีบร้อน
+          ก่อนที่ทั้งคู่จะเจอกับเรื่องที่ไม่คาดฝัน.
+        </p>
       ),
       image: "/img/parallax/Char_shaman.png",
       icon: "/img/parallax/icon_shaman.png",
@@ -377,13 +374,15 @@ function Home() {
     owner: {
       name: "ชายสูงวัย",
       description: (
-        <>
-          ชายสูงวัยลึกลับ อ้วนท่วม หน้าตาใจดีดูเป็นมิตร
-          แต่มีนิสัยส่วนตัวที่ชอบของเก่า เขามักจะสะสมของแปลกๆ ไว้ในคฤหาสต์
-          ของตนเอง ทำให้คฤหาสต์ของเขาเต็มไปด้วยรูปปั้น งานศิลปะ
-          และของสะสมอื่นๆอีกมากมาย อีกทั้งยังมีความลับบางอย่าง
-          ที่ซ่อนอยู่ในคฤหาสต์ แห่งนี้.
-        </>
+        <p className="text-left break-words">
+          ชายสูงวัยลึกลับ รูปร่างท้วม หน้าตาใจดี <br />
+          ดูเป็นมิตรเขามีนิสัยชอบสะสมของเก่า <br />
+          เขามักจะสะสมของแปลกๆ ไว้ในคฤหาสน์ส่วนตัว
+          ทำให้คฤหาสน์ของเขาเต็มไปด้วยรูปปั้น งานศิลปะ และของสะสมอื่นๆ
+          <br />
+          อีกมากมายและยังมีความลับบางอย่าง
+          <br /> ที่ซ่อนอยู่ในคฤหาสน์ แห่งนี้.
+        </p>
       ),
       image: "/img/parallax/Char_owner.png",
       icon: "/img/parallax/icon_owner.png",
@@ -393,9 +392,10 @@ function Home() {
       name: "บอดี้การ์ด",
       description: (
         <p className="text-left break-words">
-          บุคคลปริศนาสองคน ที่เป็นคนมาพบกล้าในครั้งแรกทั้งคู่ดูลึกลับ
-          และดูเป็นอันตราย พวกเขาเป็นคนพากล้าเดินทางมาที่ คฤหาสต์แห่งนั้น
-          ที่ที่เป็นจุดเริ่มต้นของเรื่องราว.
+          ชายปริศนาสองคน ที่มาพบกล้าเป็นครั้งแรก ทั้งคู่ดูลึกลับ
+          และดูเป็นอันตราย <br />
+          อย่างยิ่ง พวกเขาเป็นคนพากล้าเดินทางมายังคฤหาสน์แห่งนั้น
+          ซึ่งเป็นจุดเริ่มต้นของเรื่องราวทั้งหมด.
         </p>
       ),
       image: "/img/parallax/Char_bodyguard.png",
@@ -405,11 +405,12 @@ function Home() {
     monster: {
       name: "วิญญาณปริศนา",
       description: (
-        <>
-          วิญญาณปริศนา ที่ค่อยปรากฏตัวก่อกวนอยู่ในคฤหาสต์แห่งนี้
-          บางก็ว่าเป็นผีร้าย บ้างก็ว่าเป็นปีศาจที่น่ากลัว ไม่มีใครรู้ว่ามันมา
-          จากไหน และต้องการอะไร แต่มันอาจจะเป็นสิ่งที่กล้าจะต้องพบเจอ.
-        </>
+        <p className="text-left break-words">
+          วิญญาณปริศนาที่คอยปรากฏตัวก่อกวนอยู่ในคฤหาสน์แห่งนี้
+          บ้างก็ว่าเป็นผีร้าย บ้างก็ว่าเป็นปีศาจที่น่ากลัว
+          ไม่มีใครล่วงรู้ที่มาและสิ่งที่มันต้องการ แต่มันอาจจะเป็นสิ่งที่ "กล้า"
+          จะต้องเผชิญหน้า.
+        </p>
       ),
       image: "/img/parallax/Char_monster.png",
       icon: "/img/parallax/icon_monster.png",
@@ -498,6 +499,57 @@ function Home() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  // [แก้ไข] useEffect สำหรับอนิเมชั่นมีดใน section hook
+  useEffect(() => {
+    if (!boxesRef.current[1]) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[1],
+          start: "top 40%",
+          end: "120% 60%",
+          scrub: 1.5, // 👈 ปรับ scrub ให้ตรงกับตัวอย่าง
+          markers: true,
+        },
+      });
+
+      const animDuration = 200;
+
+      // --- แอนิเมชัน "ขาเข้า" (ค่าเหมือนตัวอย่างเป๊ะ) ---
+      tl.from(
+        ".parallax-knife-hook",
+        {
+          y: "100vh", // 👈 [แก้ไข]
+          rotation: -360,
+          rotationX: 45,
+          rotationY: -30,
+          opacity: 0,
+          ease: "power2.out",
+          duration: animDuration,
+        },
+        "+=0.5" // 👈 [แก้ไข]
+      );
+
+      // --- แอนิเมชัน "ขาออก" (ค่าเหมือนตัวอย่างเป๊ะ) ---
+      tl.to(
+        ".parallax-knife-hook",
+        {
+          y: "-100vh", // 👈 [แก้ไข]
+          opacity: 0,
+          rotation: 360,
+          rotationX: -45,
+          rotationY: 30,
+          ease: "power1.in",
+          duration: animDuration,
+        },
+        "+=0.5"
+      );
+    });
+    return () => ctx.revert();
+  }, []);
+
+  //กดดูรูปภาพใน screenshot
   const handleMouseMove = (e) => {
     const { innerWidth, innerHeight } = window;
     const x = (e.clientX / innerWidth - 0.5) * 30;
@@ -526,9 +578,10 @@ function Home() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 86%",
+          start: "top 88%",
           end: "bottom 20%",
           scrub: false,
+          // markers: true,
 
           toggleActions: "play reverse play reverse",
         },
@@ -564,15 +617,15 @@ function Home() {
           />
           {/* Tree Left - เลื่อนเร็วที่สุด */}
           <img
-            src="/img/parallax/tre1.png"
+            src="/img/parallax/tre2.png"
             alt="tree"
-            className="absolute bottom-[0vw] left-[-8vw] z-50 w-[65vw] parallax-tree-left filter brightness-0 pointer-events-none" // แก้ไข: เปลี่ยน z-30 เป็น z-50
+            className="absolute bottom-[2vw] left-[-10vw] z-50 w-[65vw] parallax-tree-left filter brightness-0 pointer-events-none" // แก้ไข: เปลี่ยน z-30 เป็น z-50
           />
           {/* Tree Right - เลื่อนเร็วที่สุด */}
           <img
             src="/img/parallax/tre4.png"
             alt="tree"
-            className="absolute bottom-[-2vw] right-[-1vw] z-50 w-[55vw] parallax-tree-right filter brightness-0 pointer-events-none" // แก้ไข: เปลี่ยน z-30 เป็น z-50
+            className="absolute bottom-[2vw] right-[-6vw] z-50 w-[55vw] parallax-tree-right filter brightness-0 pointer-events-none" // แก้ไข: เปลี่ยน z-30 เป็น z-50
           />
           {/* Ground Layer */}
           <img
@@ -636,7 +689,7 @@ function Home() {
       {/* Story Section */}
       <section
         id="synopsis"
-        className="synopsisSS relative h-[65vw] flex items-center scroll-target"
+        className="synopsisSS relative h-[65vw] flex items-center scroll-Story"
       >
         <div
           className="absolute w-[102%] h-[65vw] z-10 bg-cover bg-center brightness-140 blur-[1px] top-0 left-[-10px]"
@@ -644,19 +697,14 @@ function Home() {
           style={{ backgroundImage: `url('/img/parallax/BG_02_Story.png')` }}
         ></div>
         <img
-          src="/img/parallax/tre4.png"
-          alt="tree"
-          className="synopsis-tree absolute bottom-[-6vw] right-[-2vw] z-10 w-[55%] filter brightness-0 blur-[6px]"
+          src="/img/prop/prop009.1.png"
+          alt="knight"
+          className="absolute left-[-12vw] z-18 w-[50%] brightness-130 blur-[1px] opacity-100 itemStory_left"
         />
         <img
-          src="/img/parallax/kniight2.png"
+          src="/img/prop/prop007.png"
           alt="knight"
-          className="absolute left-[5vw] z-18 w-[10%] blur-[1.5px] knight_knife"
-        />
-        <img
-          src="/img/parallax/kniight1.png"
-          alt="knight"
-          className="absolute right-[5vw] z-10 w-[16%] blur-[1px] knight_knife2"
+          className="absolute right-[-1vw] z-10 w-[30%] brightness-120 blur-[1px] opacity-100 itemStory_right"
         />
 
         {/* overlay บนล่าง และมี backdrop */}
@@ -672,8 +720,7 @@ function Home() {
             <br />
             วันหนึ่งเขาถูกบุคคลลึกลับ เชิญไปยังคฤหาสน์ปริศนาอย่างไม่เต็มใจ{" "}
             <br />
-            ที่นั่น
-            เขาต้องเผชิญหน้ากับสิ่งที่ครั้งหนึ่งเคยใช้เป็นเพียงเครื่องมือหากิน{" "}
+            ที่นั่นเขาต้องเผชิญหน้ากับสิ่งที่ครั้งหนึ่งเคยใช้เป็นเพียงเครื่องมือหากิน{" "}
           </p>
 
           <p className="content_text2 text-center text-[1.4vw] font-normal leading-[3.3vw] tracking-[0.2vw] text-white">
@@ -700,7 +747,7 @@ function Home() {
       >
         {/* พื้นหลัง */}
         <div
-          className="absolute w-[102vw] h-[55vw] z-10 bg-cover bg-center brightness-120 blur-[1px] top-0 left-[-10px]"
+          className="absolute w-[101vw] h-[55vw] z-10 bg-cover bg-center brightness-120 blur-[1px] top-0 left-[-10px]"
           style={{
             backgroundImage: "url('/img/parallax/BG_03_Character.png')",
           }}
@@ -712,7 +759,7 @@ function Home() {
 
         <div className="main_section absolute text-start z-22 text-white top-[6vw] left-[20vw]">
           <h2
-            className="Head_storytext text-[128px] text-[#C23213] font-light "
+            className="Head_storytext text-[8.3vw] text-[#C23213] font-light "
             style={{ fontFamily: '"MAX somsin", sans-serif' }}
             data-aos="fade-up" // ใช้ fade
             data-aos-duration="1000" // เวลาของ fade
@@ -762,16 +809,16 @@ function Home() {
                 data-aos-duration="1000" // เวลาของ fade
                 data-aos-delay="500"
               ></div>
-              <div className="mt-[1.8vw] max-w-[21vw]">
-                <p
-                  className="content_textChar text-[1.05vw] font-normal leading-10 tracking-[0.14vw] font-[20px]"
+              <div className="mt-[1.8vw] max-w-[22vw]">
+                <div
+                  className="content_textChar text-[1.05vw] font-normal leading-[2.6vw] tracking-[0.14vw] font-[1.3vw]"
                   data-aos="fade-up" // ใช้ fade
                   data-aos-anchor-placement="top-bottom"
                   data-aos-delay="400"
                   data-aos-offset="200"
                 >
                   {characters[activeChar].description}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -799,7 +846,7 @@ function Home() {
                     alt={characters[activeChar].name}
                     className="w-full h-auto"
                     data-aos="zoom-in"
-                    data-aos-offset="680"
+                    data-aos-offset="200"
                     data-aos-delay="400"
                     data-aos-duration="1000" // เวลาของ fade
                   />
@@ -816,7 +863,11 @@ function Home() {
         <div className="absolute z-11 bottom-0 left-0 w-full h-[20vw] bg-gradient-to-t from-black/100 via-black/50 to-transparent"></div>
       </section>
 
-      <section id="movie" className="section_Hook relative overflow-hidden">
+      {/* section HookMovie! */}
+      <section
+        id="movie"
+        className="section_Hook relative overflow-hiddenv scroll-Hook"
+      >
         <div className="overlayupper absolute z-21 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
         <div className="absolute z-21 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div>
         {/* [เพิ่ม] 2. วาง Component Background เข้าไปเป็นอันแรก */}
@@ -825,36 +876,47 @@ function Home() {
         {/* 3. ทำให้ Content อยู่ข้างหน้า Background */}
         <div className="relative z-10">
           {[
-            "ภาพยนตร์มีเรื่องนี้ ไม่ใช่แค่การรับชม",
+            "ภาพยนตร์เรื่องนี้ ไม่ใช่แค่การรับชม",
             "คุณจะได้มีส่วนร่วมในกำหนดเส้นทางและชะตากรรมของเรื่อง..",
             "ทุกการตัดสินใจที่คุณเลือก...จะเปลี่ยนตอนจบไปตลอดกาล",
             "ปุ่ม",
           ].map((text, i) => (
+            // 👇 [แก้ไข] เพิ่ม `relative` เพื่อเป็นกรอบให้รูปภาพ
             <div
               key={i}
-              className="box"
+              className="box relative"
               ref={(el) => (boxesRef.current[i] = el)}
             >
+              {/* [เพิ่ม] เงื่อนไขสำหรับแทรกรูปภาพเข้าไปเฉพาะกล่องที่สอง (i === 1) */}
+              {i === 1 && (
+                <img
+                  src="/img/parallax/knight1.png"
+                  alt="Parallax element"
+                  className="parallax-knife-hook absolute left-[7vw] top-[7vw] w-[12vw] z-0 brightness-50 blur-[1px]"
+                />
+              )}
+
               {text === "ปุ่ม" ? (
-                <div className="relative movie-button-wrapper">
+                <div className="text relative movie-button-wrapper">
                   <StyledButton>รับชมภาพยนตร์</StyledButton>
                 </div>
               ) : (
-                <div className="text">{text}</div>
+                // 👇 [แก้ไข] เพิ่ม `relative z-10` เพื่อให้ข้อความอยู่ข้างหน้ารูปภาพ
+                <div className="text relative z-10">{text}</div>
               )}
             </div>
           ))}
         </div>
       </section>
 
-      <section className="relative h-[20vw] flex items-start z-12 bg-black ">
-        <div className="absolute z-[11] top-0 left-0 w-full h-[15vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+      <section className="relative h-[14vw] flex items-start z-12 bg-black ">
+        <div className="absolute z-[11] top-0 left-0 w-full h-[14vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
       </section>
 
       {/* ดูรูป garally */}
       <section
         id="gallery"
-        className="relative h-[50vw] flex flex-col items-center justify-center z-12 text-center bg-black"
+        className="relative h-[50vw] flex flex-col items-center justify-center z-12 text-center bg-black scroll-Garally"
       >
         <div className="overlayupper absolute z-22 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-black/0"></div>
         <div className="absolute z-11 bottom-0 left-0 w-full h-50 bg-gradient-to-t from-black/100 via-black/50 to-black/0"></div>
@@ -908,7 +970,7 @@ function Home() {
       {/* Results Section */}
       <section
         id="results"
-        className="relative h-[50vw] flex flex-col items-center justify-center z-12 scroll-target2"
+        className="relative h-[50vw] flex flex-col items-center justify-center z-12 scroll-Results"
       >
         <div
           className="absolute w-[101vw] h-[50vw] bg-cover bg-center brightness-100 blur-[1px] top-0 left-[-10px]"
@@ -920,13 +982,13 @@ function Home() {
         <div className="absolute inset-0 bg-[#070D07]/50 pointer-events-none z-20"></div>
 
         <div className="z-23 text-center mt-[-5vw]">
-          <div className="tracking-[0.2vw] mt-[1vw] mb-[-1vw] ">
+          <div className="tracking-[0.2vw] mt-[1vw] mb-[-1.5vw] ">
             <h2
               data-aos="fade-up"
               data-aos-anchor-placement="top-bottom"
               data-aos-delay="200"
-              data-aos-offset="400"
-              className="Head_storytextName text-[128px] text-[#C23213] font-light z-30"
+              data-aos-offset="300"
+              className="Head_storytextName text-[8.3vw] text-[#C23213] font-light z-30"
               style={{ fontFamily: '"MAX somsin", sans-serif' }}
             >
               ผลลัพธ์
@@ -940,7 +1002,7 @@ function Home() {
                 ref={(el) => (resultItemRefs.current[i] = el)}
                 className="flex items-center justify-center gap-12 "
                 data-aos="fade-up"
-                data-aos-offset="200"
+                data-aos-offset="100"
                 data-aos-delay="200"
               >
                 <div className="flex flex-row items-center w-[20vw] text-white mt-[-2.5vw] gap-[1.5vw]">
@@ -958,13 +1020,13 @@ function Home() {
                 <div className="w-[14vw]">
                   <img
                     data-aos="fade-up"
-                    data-aos-offset="200"
+                    data-aos-offset="100"
                     data-aos-delay="200"
                     src="/img/parallax/screen1.png"
                     alt={`character ${i}`}
                     className="shadow-lg h-[7vw] w-[14vw]"
                   />
-                  <p className="mt-[1vw] text-[20px] text-center text-white text-[1vw] tracking-wide">
+                  <p className="mt-[1vw] text-[1.3vw] text-center text-white tracking-wide">
                     ชื่อตัวละคร {i}
                   </p>
                 </div>
@@ -990,40 +1052,32 @@ function Home() {
       </section> */}
 
       {/* Footer */}
-      <footer className="h-[14vw] bg-black flex justify-center items-center flex-col gap-10">
+      <footer className="h-[14vw] bg-black flex justify-center items-center flex-col gap-[2vw] h-auto py-10">
         <div className="flex justify-center items-center gap-10">
-          <img src="/img/parallax/AAD.svg" alt="AAD" className="w-[25%]" />
-          <img src="/img/parallax/DMP.svg" alt="DMP" className="w-[25%]" />
-          <img
-            src="/img/parallax/logokmit.svg"
-            alt="KMIT"
-            className="w-[25%]"
-          />
+          <img src="/img/logo/AAD.svg" alt="AAD" className="w-[7vw]" />
+          <img src="/public/img/logo/DMP.svg" alt="DMP" className="w-[7vw]" />
+          <img src="/img/logo/logokmit.svg" alt="KMIT" className="w-[7vw]" />
         </div>
-        <div className="flex justify-center items-center flex-col text-center gap-3">
-          <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center flex-col text-center gap-[1vw]">
+          <div className="flex justify-center items-center gap-[0.4vw]">
             <img
-              src="/img/parallax/ifacebook.svg"
+              src="/img/logo/ifacebook.svg"
               alt="Facebook"
-              className="w-[2.5vw]"
+              className="w-[2.3vw]"
             />
             <img
-              src="/img/parallax/iig.svg"
+              src="/img/logo/iig.svg"
               alt="Instagram"
               className="w-[2.5vw]"
             />
             <img
-              src="/img/parallax/isocial.svg"
+              src="/img/logo/isocial.svg"
               alt="Social"
               className="w-[2.5vw]"
             />
-            <img
-              src="/img/parallax/iemail.svg"
-              alt="Email"
-              className="w-[2.5vw]"
-            />
+            <img src="/img/logo/iemail.svg" alt="Email" className="w-[2.5vw]" />
           </div>
-          <p className="text-white">โดย มงคล</p>
+          <p className="text-white text-[1.3vw]">โดย มงคล</p>
         </div>
       </footer>
     </>
