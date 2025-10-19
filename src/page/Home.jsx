@@ -190,7 +190,7 @@ function Home() {
   }, []);
 
   // =================================================================
-  // Section: Synopsis (Story)
+  // Section: Story
   // =================================================================
 
   // ข้อความ p สำหรับเรื่องย่อ ใช้ Timeline ควบคุมทั้งขาเข้าและขาออก
@@ -387,6 +387,7 @@ function Home() {
       className: styles.monster,
     },
   };
+
   //ตัวละครเอียงตามเมาส์
   const handleMouseMove = (e) => {
     const { innerWidth, innerHeight } = window;
