@@ -14,7 +14,7 @@ const Navbar = () => {
         </li>
         <li>
           <a
-            href="#synopsis"
+            href="#story"
             className="text-white hover:text-[#C23213] transition-colors"
           >
             STORY
