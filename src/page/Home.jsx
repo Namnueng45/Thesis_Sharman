@@ -463,53 +463,215 @@ function Home() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  // มีดที่ลอยอยู่ใน box อันที่ 2
+  // useEffect สำหรับ Parallax ของรูปภาพใน Box แรก (i=0)
+  useEffect(() => {
+    if (!boxesRef.current[0]) return;
+
+    const ctx = gsap.context(() => {
+      // --- อนิเมชั่นรูปซ้าย (item 0 - left) ---
+      const tl_left = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[0],
+          start: "top center",
+          end: "bottom 30%",
+          scrub: 2.5,
+        },
+      });
+      //รูปซ้ายbox0
+      tl_left.from(".parallax-hook-item-0-left", {
+        y: "-60vh",
+        opacity: 0,
+        rotation: -180,
+        ease: "power1.out",
+      });
+
+      tl_left.to(".parallax-hook-item-0-left", {
+        y: "-20vh",
+        opacity: 0,
+        rotation: 30,
+        ease: "power1.in", // ออกไปแบบเร่งความเร็ว
+      });
+
+      //รูปขวาbox0
+      const tl_right = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[0],
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.5,
+        },
+      });
+
+      tl_right.fromTo(
+        ".parallax-hook-item-0-right",
+        {
+          y: "70vh", // 👈 [แก้ไข] เปลี่ยนเป็นค่าบวก (เริ่มจากข้างล่าง)
+          opacity: 0,
+          rotation: 60,
+        },
+        {
+          y: "-50vh", // 👈 [แก้ไข] เปลี่ยนเป็นค่าลบ (เคลื่อนที่ขึ้นข้างบน)
+          opacity: 0.7,
+          rotation: 0,
+          ease: "none",
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // useEffect สำหรับ Parallax ของรูปภาพใน Box แรก (i=1)
   useEffect(() => {
     if (!boxesRef.current[1]) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
+      // รูปซ้ายbox1
+      const tl_left_1 = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[1], // 📍 Trigger คือกล่องที่สอง
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.8, // ลองปรับความเร็ว
+        },
+      });
+      tl_left_1.fromTo(
+        ".parallax-hook-item-1-left",
+        { y: "60vh", opacity: 0, rotation: 80 }, // เริ่มจากข้างล่าง
+        { y: "-40vh", opacity: 0.75, rotation: -60, ease: "none" } // เคลื่อนขึ้นข้างบน
+      );
+
+      // รูปขวาbox1
+      const tl_right_1 = gsap.timeline({
         scrollTrigger: {
           trigger: boxesRef.current[1],
-          start: "top 40%",
-          end: "120% 60%",
-          scrub: 1.5,
+          start: "center bottom",
+          end: "bottom center",
+          scrub: 2.2,
           // markers: true,
         },
       });
 
-      const animDuration = 200;
+      tl_right_1.from(".parallax-hook-item-1-right", {
+        y: "-60vh",
+        opacity: 0,
+        rotation: -60,
+        ease: "power1.out",
+      });
 
-      // --- แอนิเมชัน "ขาเข้า" ---
-      tl.from(
-        ".parallax-knife-hook",
-        {
-          y: "100vh", //
-          rotation: -360,
-          rotationX: 45,
-          rotationY: -30,
-          opacity: 0,
-          ease: "power2.out",
-          duration: animDuration,
+      tl_right_1.to(".parallax-hook-item-1-right", {
+        y: "-10vh",
+        opacity: 0,
+        rotation: 30,
+        ease: "power1.in",
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // [เพิ่ม] useEffect สำหรับ Parallax ของรูปภาพใน Box ที่สาม (i=2)
+  useEffect(() => {
+    if (!boxesRef.current[2]) return;
+
+    const ctx = gsap.context(() => {
+      // รูปซ้ายbox2
+      const tl_left_2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[2],
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 2.0, // ลองปรับความเร็ว
         },
-        "+=0.5"
+      });
+
+      tl_left_2.fromTo(
+        ".parallax-hook-item-2-left",
+        { y: "55vh", opacity: 0, rotation: -30 }, // เริ่มจากข้างล่าง
+        { y: "-45vh", opacity: 0.75, rotation: 30, ease: "none" } // เคลื่อนขึ้นข้างบน
       );
 
-      // --- แอนิเมชัน "ขาออก" (ค่าเหมือนตัวอย่างเป๊ะ) ---
-      tl.to(
-        ".parallax-knife-hook",
-        {
-          y: "-100vh", // 👈 [แก้ไข]
-          opacity: 0,
-          rotation: 360,
-          rotationX: -45,
-          rotationY: 30,
-          ease: "power1.in",
-          duration: animDuration,
+      // รูปขวาbox2
+      const tl_right_2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[2], // 📍 Trigger คือกล่องที่สาม
+          start: "center bottom",
+          end: "80% 30%",
+          scrub: 1.7,
         },
-        "+=0.5"
+      });
+
+      tl_right_2.from(".parallax-hook-item-2-right", {
+        y: "-20vh",
+        opacity: 0,
+        rotation: 60,
+        ease: "power1.out",
+      });
+      tl_right_2.to(".parallax-hook-item-2-right", {
+        y: "40vh",
+        opacity: 0.4,
+        rotation: -60,
+        ease: "power1.in",
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // [เพิ่ม] useEffect สำหรับ Parallax ของรูปภาพใน Box ที่สาม (i=3)
+  useEffect(() => {
+    if (!boxesRef.current[3]) return;
+
+    const ctx = gsap.context(() => {
+      // รูปซ้ายbox3
+      const tl_left_3 = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[3],
+          start: "30% 80%",
+          end: "70% 40%",
+          scrub: 2,
+          markers: true, // เปิดไว้เพื่อดูจุด Start/End
+        },
+      });
+
+      // 1. ขาเข้า: ใช้ from() - เริ่มจากข้างบน -> ชัดเจน
+      tl_left_3.from(".parallax-hook-item-3-left", {
+        y: "-40vh", // เริ่มจากข้างบน
+        opacity: 0,
+        rotation: -90, // เริ่มจากหมุน -90 องศา
+        ease: "power1.out",
+      });
+
+      // 2. ขาออก: ใช้ to() - เคลื่อนลงต่อ -> จางหาย
+      tl_left_3.to(
+        ".parallax-hook-item-3-left",
+        {
+          y: "20vh", // เคลื่อนลงมาถึงตำแหน่งสุดท้าย
+          opacity: 0, // จางหายไปสนิท
+          rotation: 30, // หมุนไปที่ 90 องศาตอนออก
+          ease: "power1.in",
+        }
+        // เริ่มจางหาย ณ จุด 50% ของ ScrollTrigger
+      );
+
+      // รูปขวาbox3
+      const tl_right_3 = gsap.timeline({
+        scrollTrigger: {
+          trigger: boxesRef.current[3],
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.9,
+          // markers: true,
+        },
+      });
+
+      tl_right_3.fromTo(
+        ".parallax-hook-item-3-right",
+        { y: "70vh", opacity: 0, rotation: 90 }, // เริ่มจากข้างล่าง
+        { y: "-30vh", opacity: 0.75, rotation: -90, ease: "none" } // เคลื่อนขึ้นข้างบน
       );
     });
+
     return () => ctx.revert();
   }, []);
 
@@ -935,8 +1097,8 @@ function Home() {
         id="movie"
         className="section_Hook relative overflow-hiddenv scroll-Hook"
       >
-        <div className="absolute z-21 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
-        <div className="absolute z-21 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div>
+        {/* <div className="absolute z-21 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+        <div className="absolute z-21 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div> */}
         {/* Component Background ที่เป็นจุดๆ */}
         <AnimatedBallsBackground />
 
@@ -953,14 +1115,73 @@ function Home() {
               className="box relative"
               ref={(el) => (boxesRef.current[i] = el)}
             >
-              {/* [เพิ่ม] เงื่อนไขสำหรับแทรกรูปภาพเข้าไปเฉพาะกล่องที่สอง (i === 1) */}
-              {i === 1 && (
-                <img
-                  src="/img/parallax/knight1.png"
-                  alt="Parallax element"
-                  className="parallax-knife-hook absolute left-[7vw] top-[7vw] w-[12vw] z-0 brightness-50 blur-[1px]"
-                />
+              {/* [เพิ่ม] รูปภาพสำหรับกล่องแรก (i === 0) */}
+              {i === 0 && (
+                <>
+                  {/* รูปซ้ายbox0 */}
+                  <img
+                    src="/public/img/prop/prop008.png"
+                    alt="Parallax Left 0"
+                    className="parallax-hook-item-0-left absolute left-[7vw] z-100 bottom-[-5vh] w-[16vw] brightness-80 blur-[0.5px] opacity-100"
+                  />
+                  {/* รูปขวาbox0 */}
+                  <img
+                    src="/public/img/prop/prop001.png"
+                    alt="Parallax Right 0"
+                    className="parallax-hook-item-0-right absolute right-[5vw] bottom-[20vh] w-[20vw] brightness-400 blur-[0.5px] opacity-70"
+                  />
+                </>
               )}
+
+              {i === 1 && (
+                <>
+                  {/* รูปซ้ายbox1 */}
+                  <img
+                    src="/public/img/prop/prop009.1.png"
+                    alt="Parallax Left 1"
+                    className="parallax-hook-item-1-left absolute left-[6vw] top-[4vh] w-[16vw] z-20 brightness-200 blur-[1px] opacity-100"
+                  />
+                  {/* รูปขวาbox1 */}
+                  <img
+                    src="/public/img/prop/prop007.png"
+                    alt="Parallax Right 1"
+                    className="parallax-hook-item-1-right absolute right-[2vw] bottom-[1vh] w-[25vw] z-0 brightness-200 blur-[1px] opacity-100"
+                  />
+                </>
+              )}
+              {i === 2 && (
+                <>
+                  {/* รูปซ้ายbox2 */}
+                  <img
+                    src="/public/img/prop/prop004.png"
+                    alt="Parallax Left 2"
+                    className="parallax-hook-item-2-left absolute left-[0vw] bottom-[-10vh] w-[28vw] brightness-250 blur-[0.5px] opacity-100"
+                  />
+                  {/* รูปขวาbox2 */}
+                  <img
+                    src="/public/img/prop/prop006.png"
+                    alt="Parallax Right 2"
+                    className="parallax-hook-item-2-right absolute right-[4vw] top-[8vh] w-[12vw] z-0 brightness-150 blur-[0.6px]  opacity-100"
+                  />
+                </>
+              )}
+              {i === 3 && (
+                <>
+                  {/* รูปซ้ายbox3 */}
+                  <img
+                    src="/public/img/prop/prop002.png"
+                    alt="Parallax Left 3"
+                    className="parallax-hook-item-3-left absolute left-[25vw] bottom-[8vh] w-[10vw] z-0 brightness-250 blur-[0.6px] opacity-100"
+                  />
+                  {/* รูปขวาbox3 */}
+                  <img
+                    src="/public/img/prop/prop003.png"
+                    alt="Parallax Right 3"
+                    className="parallax-hook-item-3-right absolute right-[12vw] top-[2vh] w-[26vw] z-20 brightness-250 blur-[0.3px] opacity-100"
+                  />
+                </>
+              )}
+
               {/* ถ้าเป็นปุ่มจะให้เป็น เงื่อนไขนี้ */}
               {text === "ปุ่ม" ? (
                 <div className="text relative movie-button-wrapper">
@@ -976,7 +1197,7 @@ function Home() {
 
       {/* space */}
       <section className=" relative h-[14vw] flex items-start bg-black ">
-        <div className=" absolute top-0 left-0 w-full h-[14vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-[14vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
       </section>
 
       {/* Gallery Section */}

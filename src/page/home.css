@@ -289,7 +289,7 @@ html {
   position: relative;
 } */
 .section_Hook .box {
-  height: 78vh; /* ✅ แต่ละ box เต็มจอ */
+  height: 85vh; /* ✅ แต่ละ box เต็มจอ */
   display: flex;
   justify-content: center; /* กลางแนวนอน */
   align-items: center; /* กลางแนวตั้ง */
