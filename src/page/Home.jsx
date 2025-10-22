@@ -468,7 +468,7 @@ function Home() {
     if (!boxesRef.current[0]) return;
 
     const ctx = gsap.context(() => {
-      // --- อนิเมชั่นรูปซ้าย (item 0 - left) ---
+      //รูปซ้ายbox0
       const tl_left = gsap.timeline({
         scrollTrigger: {
           trigger: boxesRef.current[0],
@@ -477,7 +477,6 @@ function Home() {
           scrub: 2.5,
         },
       });
-      //รูปซ้ายbox0
       tl_left.from(".parallax-hook-item-0-left", {
         y: "-60vh",
         opacity: 0,
@@ -630,7 +629,7 @@ function Home() {
           start: "30% 80%",
           end: "70% 40%",
           scrub: 2,
-          markers: true, // เปิดไว้เพื่อดูจุด Start/End
+          // markers: true, // เปิดไว้เพื่อดูจุด Start/End
         },
       });
 
@@ -1097,11 +1096,10 @@ function Home() {
         id="movie"
         className="section_Hook relative overflow-hiddenv scroll-Hook"
       >
-        {/* <div className="absolute z-21 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
-        <div className="absolute z-21 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div> */}
+        <div className="absolute z-21 top-0 left-0 w-full h-50 bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+        <div className="absolute z-21 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black/100 via-black/40 to-transparent"></div>{" "}
         {/* Component Background ที่เป็นจุดๆ */}
         <AnimatedBallsBackground />
-
         <div className="relative z-10">
           {[
             "ภาพยนตร์เรื่องนี้ ไม่ใช่แค่การรับชม",
@@ -1197,7 +1195,7 @@ function Home() {
 
       {/* space */}
       <section className=" relative h-[14vw] flex items-start bg-black ">
-        <div className="absolute top-0 left-0 w-full h-[14vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-[14vw] bg-gradient-to-b from-black/100 via-black/50 to-transparent z-20"></div>
       </section>
 
       {/* Gallery Section */}
