@@ -1118,13 +1118,13 @@ function Home() {
                 <>
                   {/* รูปซ้ายbox0 */}
                   <img
-                    src="/public/img/prop/prop008.png"
+                    src="/img/prop/prop008.png"
                     alt="Parallax Left 0"
                     className="parallax-hook-item-0-left absolute left-[7vw] z-100 bottom-[-5vh] w-[16vw] brightness-80 blur-[0.5px] opacity-100"
                   />
                   {/* รูปขวาbox0 */}
                   <img
-                    src="/public/img/prop/prop001.png"
+                    src="/img/prop/prop001.png"
                     alt="Parallax Right 0"
                     className="parallax-hook-item-0-right absolute right-[5vw] bottom-[20vh] w-[20vw] brightness-400 blur-[0.5px] opacity-70"
                   />
@@ -1135,13 +1135,13 @@ function Home() {
                 <>
                   {/* รูปซ้ายbox1 */}
                   <img
-                    src="/public/img/prop/prop009.1.png"
+                    src="/img/prop/prop009.1.png"
                     alt="Parallax Left 1"
                     className="parallax-hook-item-1-left absolute left-[6vw] top-[4vh] w-[16vw] z-20 brightness-200 blur-[1px] opacity-100"
                   />
                   {/* รูปขวาbox1 */}
                   <img
-                    src="/public/img/prop/prop007.png"
+                    src="/img/prop/prop007.png"
                     alt="Parallax Right 1"
                     className="parallax-hook-item-1-right absolute right-[2vw] bottom-[1vh] w-[25vw] z-0 brightness-200 blur-[1px] opacity-100"
                   />
@@ -1151,13 +1151,13 @@ function Home() {
                 <>
                   {/* รูปซ้ายbox2 */}
                   <img
-                    src="/public/img/prop/prop004.png"
+                    src="/img/prop/prop004.png"
                     alt="Parallax Left 2"
                     className="parallax-hook-item-2-left absolute left-[0vw] bottom-[-10vh] w-[28vw] brightness-250 blur-[0.5px] opacity-100"
                   />
                   {/* รูปขวาbox2 */}
                   <img
-                    src="/public/img/prop/prop006.png"
+                    src="/img/prop/prop006.png"
                     alt="Parallax Right 2"
                     className="parallax-hook-item-2-right absolute right-[4vw] top-[8vh] w-[12vw] z-0 brightness-150 blur-[0.6px]  opacity-100"
                   />
@@ -1167,13 +1167,13 @@ function Home() {
                 <>
                   {/* รูปซ้ายbox3 */}
                   <img
-                    src="/public/img/prop/prop002.png"
+                    src="/img/prop/prop002.png"
                     alt="Parallax Left 3"
                     className="parallax-hook-item-3-left absolute left-[25vw] bottom-[8vh] w-[10vw] z-0 brightness-250 blur-[0.6px] opacity-100"
                   />
                   {/* รูปขวาbox3 */}
                   <img
-                    src="/public/img/prop/prop003.png"
+                    src="/img/prop/prop003.png"
                     alt="Parallax Right 3"
                     className="parallax-hook-item-3-right absolute right-[12vw] top-[2vh] w-[26vw] z-20 brightness-250 blur-[0.3px] opacity-100"
                   />
@@ -1343,7 +1343,7 @@ function Home() {
       <footer className="h-[14vw] bg-black flex justify-center items-center flex-col gap-[2vw] h-auto py-10">
         <div className="flex justify-center items-center gap-10">
           <img src="/img/logo/AAD.svg" alt="AAD" className="w-[7vw]" />
-          <img src="/public/img/logo/DMP.svg" alt="DMP" className="w-[7vw]" />
+          <img src="/img/logo/DMP.svg" alt="DMP" className="w-[7vw]" />
           <img src="/img/logo/logokmit.svg" alt="KMIT" className="w-[7vw]" />
         </div>
         <div className="flex justify-center items-center flex-col text-center gap-[1vw]">
